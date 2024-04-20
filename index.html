@@ -44,20 +44,23 @@
     </style>
     <script>
         function openWebsites() {
-            var urls = [
-                'https://web.pulsepoint.org',
-                'https://bit.ly/smfr',
-                'https://bit.ly/smfrm',
-                'https://x.com/southmetropio',
-                'https://instagram.com/southmetropio',
-                'https://www.broadcastify.com/webPlayer/23085',
-                'https://www.facebook.com/SouthMetroPIO/',
-                'https://fire.fandom.com/wiki/South_Metro_Fire_Rescue_(Colorado)'
-            ];
+            // Confirmation dialog
+            if (confirm('THIS WILL OPEN 8 TABS. NEW WINDOW RECOMMENDED.')) {
+                var urls = [
+                    'https://web.pulsepoint.org',
+                    'https://bit.ly/smfr',
+                    'https://bit.ly/smfrm',
+                    'https://x.com/southmetropio',
+                    'https://instagram.com/southmetropio',
+                    'https://www.broadcastify.com/webPlayer/23085',
+                    'https://www.facebook.com/SouthMetroPIO/',
+                    'https://fire.fandom.com/wiki/South_Metro_Fire_Rescue_(Colorado)'
+                ];
 
-            urls.forEach(function(url) {
-                window.open(url, '_blank');
-            });
+                urls.forEach(function(url) {
+                    window.open(url, '_blank');
+                });
+            }
         }
     </script>
 </head>
