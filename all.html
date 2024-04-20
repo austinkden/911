@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EM TABS OPEN</title>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+        }
+
+        button {
+            padding: 20px 40px;
+            font-size: 20px;
+            color: white;
+            background-color: #ff3333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #cc2900;
+        }
+    </style>
+    <script>
+        function openWebsites() {
+            var urls = [
+                'https://www.google.com',
+                'https://www.yahoo.com',
+                'https://www.bing.com'
+            ];
+
+            urls.forEach(function(url) {
+                window.open(url, '_blank');
+            });
+        }
+    </script>
+</head>
+<body>
+    <button onclick="openWebsites()">OPEN SMFR EMERGENCY TABS</button>
+</body>
+</html>
