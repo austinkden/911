@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dispatch Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .strip {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .strip input {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            flex: 1 0 100%;
+            box-sizing: border-box;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .strip button {
+            align-self: flex-start;
+            padding: 5px 10px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .strip button:hover {
+            background-color: #ff3333;
+        }
+        .add-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .add-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dispatch Information</h1>
+    <button class="add-button" onclick="addStrip()">Add</button>
+    <div id="container"></div>
+
+    <script>
+        function addStrip() {
+            const container = document.getElementById('container');
+            const strip = document.createElement('div');
+            strip.className = 'strip';
+
+            strip.innerHTML = `
+                <input type="text" placeholder="Responding Units (ex. E44 M44)">
+                <input type="text" placeholder="Call Type (ex. Medical Assist)">
+                <input type="text" placeholder="Map Page (ex. U-30-B)">
+                <input type="text" placeholder="Place Name (ex. Centennial Airport)">
+                <input type="text" placeholder="Address (ex. 7800 S Peoria Street)">
+                <button onclick="removeStrip(this)">Delete</button>
+            `;
+
+            container.appendChild(strip);
+        }
+
+        function removeStrip(button) {
+            const strip = button.parentNode;
+            strip.remove();
+        }
+    </script>
+</body>
+</html>
