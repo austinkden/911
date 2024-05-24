@@ -94,8 +94,7 @@ function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName =
             <input type="text" class="map-page" placeholder="Map Page" value="${mapPage}">
             <input type="text" class="place-name" placeholder="Place Name" value="${placeName}">
             <input type="text" class="full-width" placeholder="Address" value="${address}">
-        </div>
-        <textarea class="notes full-width" placeholder="Notes">${notes}</textarea>
+            <input type="text" class="full-width" placeholder="Notes" value="${notes}">
         <button onclick="removeStrip(this)">Delete</button>
     `;
 
@@ -119,13 +118,14 @@ function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName =
                 mapPage: strip.querySelector('.map-page').value,
                 placeName: strip.querySelector('.place-name').value,
                 address: strip.querySelector('.full-width').value
+                notes: strip.querySelector('full-width').value
             }));
             localStorage.setItem('dispatchData', JSON.stringify(data));
         }
 
         function loadStrips() {
             const data = JSON.parse(localStorage.getItem('dispatchData') || '[]');
-            data.forEach(item => addStrip(item.respondingUnits, item.callType, item.mapPage, item.placeName, item.address));
+            data.forEach(item => addStrip(item.respondingUnits, item.callType, item.mapPage, item.placeName, item.address, item.notes));
         }
     </script>
 </body>
