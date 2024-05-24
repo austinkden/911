@@ -25,14 +25,21 @@
             border: 1px solid #ccc;
             border-radius: 3px;
         }
-        .strip input.full-width {
+        .full-width {
             flex: 1 0 100%;
             box-sizing: border-box;
         }
-        .strip input.map-page {
-            width: 75px;
+        .responding-units {
+            flex: 0 0 70%;
         }
-        .strip input.place-name {
+        .call-type {
+            flex: 0 0 28%; /* Adjusted to fit with margin */
+        }
+        .map-page {
+            width: 75px;
+            margin-right: 10px;
+        }
+        .place-name {
             flex: 1;
         }
         .strip button {
@@ -66,26 +73,51 @@
     <div id="container"></div>
 
     <script>
-        function addStrip() {
+        document.addEventListener("DOMContentLoaded", loadStrips);
+
+        function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "") {
             const container = document.getElementById('container');
             const strip = document.createElement('div');
             strip.className = 'strip';
 
             strip.innerHTML = `
-                <input type="text" class="full-width" placeholder="Responding Units (ex. E44 M44)">
-                <input type="text" class="full-width" placeholder="Call Type (ex. Medical Assist)">
-                <input type="text" class="map-page" placeholder="Map Page (ex. U-30-B)">
-                <input type="text" class="place-name" placeholder="Place Name (ex. Centennial Airport)">
-                <input type="text" class="full-width" placeholder="Address (ex. 7800 S Peoria Street)">
+                <div style="flex: 1; display: flex;">
+                    <input type="text" class="responding-units" placeholder="Responding Units (ex. E44 M44)" value="${respondingUnits}">
+                    <input type="text" class="call-type" placeholder="Call Type (ex. Medical Assist)" value="${callType}">
+                </div>
+                <div style="flex: 1; display: flex;">
+                    <input type="text" class="map-page" placeholder="Map Page (ex. U-30-B)" value="${mapPage}">
+                    <input type="text" class="place-name" placeholder="Place Name (ex. Centennial Airport)" value="${placeName}">
+                </div>
+                <input type="text" class="full-width" placeholder="Address (ex. 7800 S Peoria Street)" value="${address}">
                 <button onclick="removeStrip(this)">Delete</button>
             `;
 
             container.appendChild(strip);
+            saveStrips();
         }
 
         function removeStrip(button) {
             const strip = button.parentNode;
             strip.remove();
+            saveStrips();
+        }
+
+        function saveStrips() {
+            const strips = document.querySelectorAll('.strip');
+            const data = Array.from(strips).map(strip => ({
+                respondingUnits: strip.querySelector('.responding-units').value,
+                callType: strip.querySelector('.call-type').value,
+                mapPage: strip.querySelector('.map-page').value,
+                placeName: strip.querySelector('.place-name').value,
+                address: strip.querySelector('.full-width').value
+            }));
+            localStorage.setItem('dispatchData', JSON.stringify(data));
+        }
+
+        function loadStrips() {
+            const data = JSON.parse(localStorage.getItem('dispatchData') || '[]');
+            data.forEach(item => addStrip(item.respondingUnits, item.callType, item.mapPage, item.placeName, item.address));
         }
     </script>
 </body>
