@@ -10,6 +10,7 @@
         }
         .strip {
             display: flex;
+            flex-direction: column;
             flex-wrap: wrap;
             margin-top: 15px;
             margin-bottom: 10px;
@@ -24,22 +25,26 @@
             padding: 5px;
             border: 1px solid #ccc;
             border-radius: 3px;
-        }
-        .full-width {
-            flex: 1 0 100%;
             box-sizing: border-box;
         }
+        .full-width {
+            width: 100%;
+        }
         .responding-units {
-            flex: 0 0 70%;
+            width: 70%;
         }
         .call-type {
-            flex: 0 0 28%; /* Adjusted to fit with margin */
+            width: 28%; /* Adjusted to fit with margin */
         }
         .map-page {
             width: 75px;
             margin-right: 10px;
         }
         .place-name {
+            flex: 1;
+        }
+        .map-place-container {
+            display: flex;
             flex: 1;
         }
         .strip button {
@@ -81,11 +86,9 @@
             strip.className = 'strip';
 
             strip.innerHTML = `
-                <div style="flex: 1; display: flex;">
-                    <input type="text" class="responding-units" placeholder="Responding Units (ex. E44 M44)" value="${respondingUnits}">
-                    <input type="text" class="call-type" placeholder="Call Type (ex. Medical Assist)" value="${callType}">
-                </div>
-                <div style="flex: 1; display: flex;">
+                <input type="text" class="responding-units" placeholder="Responding Units (ex. E44 M44)" value="${respondingUnits}">
+                <input type="text" class="call-type" placeholder="Call Type (ex. Medical Assist)" value="${callType}">
+                <div class="map-place-container">
                     <input type="text" class="map-page" placeholder="Map Page (ex. U-30-B)" value="${mapPage}">
                     <input type="text" class="place-name" placeholder="Place Name (ex. Centennial Airport)" value="${placeName}">
                 </div>
