@@ -11,7 +11,7 @@
         .strip {
             display: flex;
             flex-wrap: wrap;
-            margin-top: 15px; /* Increased top margin */
+            margin-top: 15px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
             padding: 10px;
@@ -21,11 +21,19 @@
         .strip input {
             margin-right: 10px;
             margin-bottom: 10px;
-            flex: 1 0 100%;
-            box-sizing: border-box;
             padding: 5px;
             border: 1px solid #ccc;
             border-radius: 3px;
+        }
+        .strip input.full-width {
+            flex: 1 0 100%;
+            box-sizing: border-box;
+        }
+        .strip input.map-page {
+            width: 75px;
+        }
+        .strip input.place-name {
+            flex: 1;
         }
         .strip button {
             align-self: flex-start;
@@ -64,11 +72,11 @@
             strip.className = 'strip';
 
             strip.innerHTML = `
-                <input type="text" placeholder="Responding Units (ex. E44 M44)">
-                <input type="text" placeholder="Call Type (ex. Medical Assist)">
-                <input type="text" placeholder="Map Page (ex. U-30-B)">
-                <input type="text" placeholder="Place Name (ex. Centennial Airport)">
-                <input type="text" placeholder="Address (ex. 7800 S Peoria Street)">
+                <input type="text" class="full-width" placeholder="Responding Units">
+                <input type="text" class="full-width" placeholder="Call Type">
+                <input type="text" class="map-page" placeholder="Map Page">
+                <input type="text" class="place-name" placeholder="Place Name">
+                <input type="text" class="full-width" placeholder="Address">
                 <button onclick="removeStrip(this)">Delete</button>
             `;
 
