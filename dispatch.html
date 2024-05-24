@@ -80,7 +80,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", loadStrips);
 
-       function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "") {
+function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "", notes = "") {
     const container = document.getElementById('container');
     const strip = document.createElement('div');
     strip.className = 'strip';
@@ -95,12 +95,14 @@
             <input type="text" class="place-name" placeholder="Place Name" value="${placeName}">
             <input type="text" class="full-width" placeholder="Address" value="${address}">
         </div>
+        <textarea class="notes full-width" placeholder="Notes">${notes}</textarea>
         <button onclick="removeStrip(this)">Delete</button>
     `;
 
     container.appendChild(strip);
     saveStrips();
 }
+
 
 
         function removeStrip(button) {
