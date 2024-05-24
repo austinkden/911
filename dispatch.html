@@ -29,6 +29,12 @@
             flex: 1 0 100%;
             box-sizing: border-box;
         }
+        .strip input.responding-units {
+            flex: 0 0 70%;
+        }
+        .strip input.call-type {
+            flex: 0 0 30%;
+        }
         .strip input.map-page {
             width: 75px;
         }
@@ -72,11 +78,11 @@
             strip.className = 'strip';
 
             strip.innerHTML = `
-                <input type="text" class="full-width" placeholder="Responding Units">
-                <input type="text" class="full-width" placeholder="Call Type">
-                <input type="text" class="map-page" placeholder="Map Page">
-                <input type="text" class="place-name" placeholder="Place Name">
-                <input type="text" class="full-width" placeholder="Address">
+                <input type="text" class="responding-units" placeholder="Responding Units (ex. E44 M44)">
+                <input type="text" class="call-type" placeholder="Call Type (ex. Medical Assist)">
+                <input type="text" class="map-page" placeholder="Map Page (ex. U-30-B)">
+                <input type="text" class="place-name" placeholder="Place Name (ex. Centennial Airport)">
+                <input type="text" class="full-width" placeholder="Address (ex. 7800 S Peoria Street)">
                 <button onclick="removeStrip(this)">Delete</button>
             `;
 
