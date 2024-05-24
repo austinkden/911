@@ -80,27 +80,28 @@
     <script>
         document.addEventListener("DOMContentLoaded", loadStrips);
 
-        function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "") {
-            const container = document.getElementById('container');
-            const strip = document.createElement('div');
-            strip.className = 'strip';
+       function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "") {
+    const container = document.getElementById('container');
+    const strip = document.createElement('div');
+    strip.className = 'strip';
 
-            strip.innerHTML = `
-                <div class="input-group">
-                    <input type="text" class="responding-units" placeholder="Responding Units (ex. E44 M44)" value="${respondingUnits}">
-                    <input type="text" class="call-type" placeholder="Call Type (ex. Medical Assist)" value="${callType}">
-                </div>
-                <div class="map-place-container">
-                    <input type="text" class="map-page" placeholder="Map Page (ex. U-30-B)" value="${mapPage}">
-                    <input type="text" class="place-name" placeholder="Place Name (ex. Centennial Airport)" value="${placeName}">
-                    <input type="text" class="full-width" placeholder="Address (ex. 7800 S Peoria Street)" value="${address}">
-                </div>
-                <button onclick="removeStrip(this)">Delete</button>
-            `;
+    strip.innerHTML = `
+        <div class="input-group">
+            <input type="text" class="responding-units" placeholder="Responding Units" value="${respondingUnits}">
+            <input type="text" class="call-type" placeholder="Call Type" value="${callType}">
+        </div>
+        <div class="map-place-container">
+            <input type="text" class="map-page" placeholder="Map Page" value="${mapPage}">
+            <input type="text" class="place-name" placeholder="Place Name" value="${placeName}">
+            <input type="text" class="full-width" placeholder="Address" value="${address}">
+        </div>
+        <button onclick="removeStrip(this)">Delete</button>
+    `;
 
-            container.appendChild(strip);
-            saveStrips();
-        }
+    container.appendChild(strip);
+    saveStrips();
+}
+
 
         function removeStrip(button) {
             const strip = button.parentNode;
