@@ -109,16 +109,6 @@
             display: flex;
             gap: 10px;
         }
-    .time-stamp {
-        position: absolute;
-        top: 5px;
-        right: 10px;
-        color: #c0c0c0; /* Light grey color for visibility */
-        font-size: 0.85em;
-    }
-    .strip {
-        position: relative;
-    }
     </style>
 </head>
 <body>
@@ -137,10 +127,7 @@
     const strip = document.createElement('div');
     strip.className = 'strip';
 
-    const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-
     strip.innerHTML = `
-        <span class="time-stamp">${currentTime}</span>
         <div class="call-type-header">
             <div class="indicator" style="background-color: ${getCategoryColor(callCategory)};"></div>
             <span class="header-text">${callType}</span>
@@ -170,7 +157,7 @@
         </div>
     `;
 
-    container.prepend(strip);  // Use prepend to add at the top
+    container.prepend(strip);  // Use prepend instead of appendChild
     saveStrips();
 }
 
