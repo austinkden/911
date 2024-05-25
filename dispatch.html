@@ -183,6 +183,7 @@ function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName =
                 <option value="Standby" ${callCategory === "Standby" ? "selected" : ""}>Standby</option>
                 <option value="Fire" ${callCategory === "Fire" ? "selected" : ""}>Fire</option>
                 <option value="Special" ${callCategory === "Special" ? "selected" : ""}>Special</option>
+                <option value="Other" ${callCategory === "Other" ? "selected" : ""}>Other</option>
             </select>
             <select class="priority-status" onchange="updatePriorityStatus(this)">
                 <option value="" ${priorityStatus === "" ? "selected" : ""}>Select</option>
@@ -200,6 +201,7 @@ function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName =
     container.prepend(strip);  // Use prepend instead of appendChild
     saveStrips();
 }
+
 
 function handleKeyDown(event) {
     const strip = event.target.closest('.strip');
@@ -263,7 +265,6 @@ function handleCallTypeInput(event) {
     saveStrips();
 }
 
-
 function getCategoryColor(category) {
     switch (category) {
         case "Medical":
@@ -280,10 +281,13 @@ function getCategoryColor(category) {
             return "#cc5500"; //orange
         case "Special":
             return "red";
+        case "Other":
+            return "white";
         default:
-            return "transparent";
+            return "white";
     }
 }
+
 
 function updateCallTypeHeader(input) {
     const header = input.parentElement.previousElementSibling;
