@@ -189,7 +189,7 @@ function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName =
                 <option value="Priority" ${priorityStatus === "Priority" ? "selected" : ""}>Priority</option>
                 <option value="Go" ${priorityStatus === "Go" ? "selected" : ""}>Go</option>
             </select>
-            <button onclick="removeStrip(this)">Delete</button>
+            <button onclick="removeStrip(this)">DEL</button>
         </div>
     `;
 
@@ -320,9 +320,11 @@ function openGoogleMaps(address) {
 }
 
 function removeStrip(button) {
+    if (confirm('Are you sure you want to delete this strip?')) {
     const strip = button.parentNode.parentNode;
     strip.remove();
     saveStrips();
+    }
 }
 
 function confirmRemoveAllStrips() {
