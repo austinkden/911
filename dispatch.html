@@ -294,7 +294,14 @@ function updateCallTypeHeader(input) {
 function updateCategory(select) {
     const strip = select.closest('.strip');
     const header = strip.querySelector('.call-type-header');
+    const priorityStatusSelect = strip.querySelector('.priority-status');
+
     header.style.color = getCategoryColor(select.value);
+    if (["MVA", "Fire", "Special"].includes(select.value)) {
+        priorityStatusSelect.value = "Priority";
+        updatePriorityStatus(priorityStatusSelect); // This will set and apply the correct class for flashing
+    }
+    
     saveStrips();
 }
 
