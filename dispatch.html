@@ -363,8 +363,9 @@ function saveStrips() {
 
 function loadStrips() {
     const data = JSON.parse(localStorage.getItem('dispatchData') || '[]');
-    data.forEach(item => addStrip(item.respondingUnits, item.callType, item.mapPage, item.placeName, item.address, item.notes, item.callCategory, item.priorityStatus));
+    data.reverse().forEach(item => addStrip(item.respondingUnits, item.callType, item.mapPage, item.placeName, item.address, item.notes, item.callCategory, item.priorityStatus));
 }
+
     </script>
 </body>
 </html>
