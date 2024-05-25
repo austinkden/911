@@ -127,6 +127,14 @@
     const strip = document.createElement('div');
     strip.className = 'strip';
 
+<<<<<<< HEAD
+    const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }); // Use 24-hour time format
+
+    // Append current time to notes
+    notes = notes + (notes ? " " : "") + currentTime;
+
+=======
+>>>>>>> 003aaeecba1e4b93602b473d0c9e1af5327beb31
     strip.innerHTML = `
         <div class="call-type-header">
             <div class="indicator" style="background-color: ${getCategoryColor(callCategory)};"></div>
