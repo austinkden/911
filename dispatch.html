@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,13 @@
             font-size: 16px;
             color: white;
             background-color: #323335;
+        }
+        .time-display {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            font-weight: bold;
         }
         .strip {
             display: flex;
@@ -122,6 +129,7 @@
     </style>
 </head>
 <body>
+    <div class="time-display" id="time-display"></div>
     <div class="button-container">
         <button class="add-button" onclick="addStrip()">Add</button>
         <button class="delete-all-button" onclick="confirmRemoveAllStrips()">Delete All</button>
@@ -131,99 +139,105 @@
     <script>
     document.addEventListener("DOMContentLoaded", loadStrips);
 
-// Add event listener for the space bar to add a new strip
-document.addEventListener('keydown', function(event) {
-    if (event.code === 'Space' && !event.target.matches('input, textarea')) {
-        event.preventDefault(); // Prevent the default action (scrolling down the page)
-        addStrip();
-    }
-});
-
-function getCurrentTime() {
-    const now = new Date();
-    return now.toLocaleTimeString('en-GB', { hour12: false });
-}
-
-function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "", notes = "", callCategory = "", priorityStatus = "") {
-    if (!notes) { // Check if notes is empty and if so, set to current time
-        notes = getCurrentTime();
-    }
-
-    const container = document.getElementById('container');
-    const strip = document.createElement('div');
-    strip.className = 'strip';
-    if (priorityStatus === 'Priority') {
-        strip.classList.add('priority-status-flash');
-    } else if (priorityStatus === 'Go') {
-        strip.classList.add('go-status-flash');
-        openGoogleMaps(address);
-    }
-
-    strip.innerHTML = `
-        <div class="call-type-header" style="color: ${getCategoryColor(callCategory)};">
-            <span class="header-text">${callType}</span>
-        </div>
-        <div class="input-group">
-            <input type="text" class="responding-units" placeholder="Responding Units" value="${respondingUnits}">
-            <input type="text" class="call-type" placeholder="Call Type" value="${callType}" oninput="handleCallTypeInput(event)">
-        </div>
-        <div class="map-place-container">
-            <input type="text" class="map-page" placeholder="Map Page" value="${mapPage}">
-            <input type="text" class="place-name" placeholder="Place Name" value="${placeName}">
-            <input type="text" class="full-width" placeholder="Address" value="${address}">
-        </div>
-        <div class="notes-container">
-            <input type="text" class="notes" placeholder="Notes" value="${notes}">
-            <select class="call-category" onchange="updateCategory(this)">
-                <option value="" ${callCategory === "" ? "selected" : ""}>Select Category</option>
-                <option value="Medical" ${callCategory === "Medical" ? "selected" : ""}>Medical</option>
-                <option value="MVA" ${callCategory === "MVA" ? "selected" : ""}>MVA</option>
-                <option value="Alarm" ${callCategory === "Alarm" ? "selected" : ""}>Alarm</option>
-                <option value="Investigation" ${callCategory === "Investigation" ? "selected" : ""}>Investigation</option>
-                <option value="Standby" ${callCategory === "Standby" ? "selected" : ""}>Standby</option>
-                <option value="Fire" ${callCategory === "Fire" ? "selected" : ""}>Fire</option>
-                <option value="Special" ${callCategory === "Special" ? "selected" : ""}>Special</option>
-                <option value="Other" ${callCategory === "Other" ? "selected" : ""}>Other</option>
-            </select>
-            <select class="priority-status" onchange="updatePriorityStatus(this)">
-                <option value="" ${priorityStatus === "" ? "selected" : ""}>Select</option>
-                <option value="Priority" ${priorityStatus === "Priority" ? "selected" : ""}>Priority</option>
-                <option value="Go" ${priorityStatus === "Go" ? "selected" : ""}>Go</option>
-            </select>
-            <button onclick="removeStrip(this)">DEL</button>
-        </div>
-    `;
-
-    strip.querySelectorAll('input, select').forEach(element => {
-        element.addEventListener('keydown', handleKeyDown);
-        if (element.tagName === 'INPUT') {
-            element.addEventListener('blur', capitalizeText); // Attach blur event for capitalizing text
+    // Add event listener for the space bar to add a new strip
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'Space' && !event.target.matches('input, textarea')) {
+            event.preventDefault(); // Prevent the default action (scrolling down the page)
+            addStrip();
         }
     });
 
-    container.prepend(strip);  // Use prepend instead of appendChild
-    saveStrips();
-}
-
-
-
-function handleKeyDown(event) {
-    const strip = event.target.closest('.strip');
-    if (event.ctrlKey && event.key === 'x') {
-        event.preventDefault();
-        removeStrip(strip.querySelector('button'));
-    } else if (event.ctrlKey && event.key === 'q') {
-        event.preventDefault();
-        strip.querySelector('.priority-status').value = 'Priority';
-        updatePriorityStatus(strip.querySelector('.priority-status'));
-    } else if (event.ctrlKey && event.key === 'y') {
-        event.preventDefault();
-        strip.querySelector('.priority-status').value = 'Go';
-        updatePriorityStatus(strip.querySelector('.priority-status'));
+    function getCurrentTime() {
+        const now = new Date();
+        return now.toLocaleTimeString('en-GB', { hour12: false });
     }
-}
 
-function handleCallTypeInput(event) {
+    function updateTimeDisplay() {
+        const timeDisplay = document.getElementById('time-display');
+        timeDisplay.textContent = getCurrentTime();
+    }
+
+    setInterval(updateTimeDisplay, 1000); // Update time display every second
+
+    function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "", notes = "", callCategory = "", priorityStatus = "") {
+        if (!notes) { // Check if notes is empty and if so, set to current time
+            notes = getCurrentTime();
+        }
+
+        const container = document.getElementById('container');
+        const strip = document.createElement('div');
+        strip.className = 'strip';
+        if (priorityStatus === 'Priority') {
+            strip.classList.add('priority-status-flash');
+        } else if (priorityStatus === 'Go') {
+            strip.classList.add('go-status-flash');
+            openGoogleMaps(address);
+        }
+
+        strip.innerHTML = `
+            <div class="call-type-header" style="color: ${getCategoryColor(callCategory)};">
+                <span class="header-text">${callType}</span>
+            </div>
+            <div class="input-group">
+                <input type="text" class="responding-units" placeholder="Responding Units" value="${respondingUnits}">
+                <input type="text" class="call-type" placeholder="Call Type" value="${callType}" oninput="handleCallTypeInput(event)">
+            </div>
+            <div class="map-place-container">
+                <input type="text" class="map-page" placeholder="Map Page" value="${mapPage}">
+                <input type="text" class="place-name" placeholder="Place Name" value="${placeName}">
+                <input type="text" class="full-width" placeholder="Address" value="${address}">
+            </div>
+            <div class="notes-container">
+                <input type="text" class="notes" placeholder="Notes" value="${notes}">
+                <select class="call-category" onchange="updateCategory(this)">
+                    <option value="" ${callCategory === "" ? "selected" : ""}>Select Category</option>
+                    <option value="Medical" ${callCategory === "Medical" ? "selected" : ""}>Medical</option>
+                    <option value="MVA" ${callCategory === "MVA" ? "selected" : ""}>MVA</option>
+                    <option value="Alarm" ${callCategory === "Alarm" ? "selected" : ""}>Alarm</option>
+                    <option value="Investigation" ${callCategory === "Investigation" ? "selected" : ""}>Investigation</option>
+                    <option value="Standby" ${callCategory === "Standby" ? "selected" : ""}>Standby</option>
+                    <option value="Fire" ${callCategory === "Fire" ? "selected" : ""}>Fire</option>
+                    <option value="Special" ${callCategory === "Special" ? "selected" : ""}>Special</option>
+                    <option value="Other" ${callCategory === "Other" ? "selected" : ""}>Other</option>
+                </select>
+                <select class="priority-status" onchange="updatePriorityStatus(this)">
+                    <option value="" ${priorityStatus === "" ? "selected" : ""}>Select</option>
+                    <option value="Priority" ${priorityStatus === "Priority" ? "selected" : ""}>Priority</option>
+                    <option value="Go" ${priorityStatus === "Go" ? "selected" : ""}>Go</option>
+                </select>
+                <button onclick="removeStrip(this)">DEL</button>
+            </div>
+        `;
+
+        strip.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('keydown', handleKeyDown);
+            if (element.tagName === 'INPUT') {
+                element.addEventListener('blur', capitalizeText); // Attach blur event for capitalizing text
+            }
+        });
+
+        container.prepend(strip);  // Use prepend instead of appendChild
+        saveStrips();
+    }
+
+    function handleKeyDown(event) {
+        const strip = event.target.closest('.strip');
+        if (event.ctrlKey && event.key === 'x') {
+            event.preventDefault();
+            removeStrip(strip.querySelector('button'));
+        } else if (event.ctrlKey && event.key === 'q') {
+            event.preventDefault();
+            strip.querySelector('.priority-status').value = 'Priority';
+            updatePriorityStatus(strip.querySelector('.priority-status'));
+        } else if (event.ctrlKey && event.key === 'y') {
+            event.preventDefault();
+            strip.querySelector('.priority-status').value = 'Go';
+            updatePriorityStatus(strip.querySelector('.priority-status'));
+        }
+    }
+
+    function handleCallTypeInput
+(event) {
     const callTypeInput = event.target;
     const callType = callTypeInput.value.toLowerCase();
     const callCategorySelect = callTypeInput.closest('.strip').querySelector('.call-category');
