@@ -196,11 +196,15 @@ function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName =
 
     strip.querySelectorAll('input, select').forEach(element => {
         element.addEventListener('keydown', handleKeyDown);
+        if (element.tagName === 'INPUT') {
+            element.addEventListener('blur', capitalizeText); // Attach blur event for capitalizing text
+        }
     });
 
     container.prepend(strip);  // Use prepend instead of appendChild
     saveStrips();
 }
+
 
 
 function handleKeyDown(event) {
@@ -314,6 +318,11 @@ function openGoogleMaps(address) {
         const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(address)}&travelmode=bicycling`;
         window.open(url, '_blank');
     }
+}
+
+function capitalizeText(event) {
+    const input = event.target;
+    input.value = input.value.toUpperCase();
 }
 
 function removeStrip(button) {
