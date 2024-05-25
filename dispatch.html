@@ -120,46 +120,55 @@
     <div id="container"></div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", loadStrips);
+    document.addEventListener("DOMContentLoaded", loadStrips);
 
-        function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "", notes = "", callCategory = "") {
-    const container = document.getElementById('container');
-    const strip = document.createElement('div');
-    strip.className = 'strip';
+    function getCurrentTime() {
+        const now = new Date();
+        return now.toLocaleTimeString('en-GB', { hour12: false });
+    }
 
-    strip.innerHTML = `
-        <div class="call-type-header">
-            <div class="indicator" style="background-color: ${getCategoryColor(callCategory)};"></div>
-            <span class="header-text">${callType}</span>
-        </div>
-        <div class="input-group">
-            <input type="text" class="responding-units" placeholder="Responding Units" value="${respondingUnits}">
-            <input type="text" class="call-type" placeholder="Call Type" value="${callType}" oninput="updateCallTypeHeader(this)">
-        </div>
-        <div class="map-place-container">
-            <input type="text" class="map-page" placeholder="Map Page" value="${mapPage}">
-            <input type="text" class="place-name" placeholder="Place Name" value="${placeName}">
-            <input type="text" class="full-width" placeholder="Address" value="${address}">
-        </div>
-        <div class="notes-container">
-            <input type="text" class="notes" placeholder="Notes" value="${notes}">
-            <select class="call-category" onchange="updateCategory(this)">
-                <option value="" ${callCategory === "" ? "selected" : ""}>Select Category</option>
-                <option value="Medical" ${callCategory === "Medical" ? "selected" : ""}>Medical</option>
-                <option value="MVA" ${callCategory === "MVA" ? "selected" : ""}>MVA</option>
-                <option value="Alarm" ${callCategory === "Alarm" ? "selected" : ""}>Alarm</option>
-                <option value="Investigation" ${callCategory === "Investigation" ? "selected" : ""}>Investigation</option>
-                <option value="Standby" ${callCategory === "Standby" ? "selected" : ""}>Standby</option>
-                <option value="Fire" ${callCategory === "Fire" ? "selected" : ""}>Fire</option>
-                <option value="Special" ${callCategory === "Special" ? "selected" : ""}>Special</option>
-            </select>
-            <button onclick="confirmRemoveStrip(this)">Delete</button>
-        </div>
-    `;
+    function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "", notes = "", callCategory = "") {
+        if (!notes) { // Check if notes is empty and if so, set to current time
+            notes = getCurrentTime();
+        }
 
-    container.prepend(strip);  // Use prepend instead of appendChild
-    saveStrips();
-}
+        const container = document.getElementById('container');
+        const strip = document.createElement('div');
+        strip.className = 'strip';
+
+        strip.innerHTML = `
+            <div class="call-type-header">
+                <div class="indicator" style="background-color: ${getCategoryColor(callCategory)};"></div>
+                <span class="header-text">${callType}</span>
+            </div>
+            <div class="input-group">
+                <input type="text" class="responding-units" placeholder="Responding Units" value="${respondingUnits}">
+                <input type="text" class="call-type" placeholder="Call Type" value="${callType}" oninput="updateCallTypeHeader(this)">
+            </div>
+            <div class="map-place-container">
+                <input type="text" class="map-page" placeholder="Map Page" value="${mapPage}">
+                <input type="text" class="place-name" placeholder="Place Name" value="${placeName}">
+                <input type="text" class="full-width" placeholder="Address" value="${address}">
+            </div>
+            <div class="notes-container">
+                <input type="text" class="notes" placeholder="Notes" value="${notes}">
+                <select class="call-category" onchange="updateCategory(this)">
+                    <option value="" ${callCategory === "" ? "selected" : ""}>Select Category</option>
+                    <option value="Medical" ${callCategory === "Medical" ? "selected" : ""}>Medical</option>
+                    <option value="MVA" ${callCategory === "MVA" ? "selected" : ""}>MVA</option>
+                    <option value="Alarm" ${callCategory === "Alarm" ? "selected" : ""}>Alarm</option>
+                    <option value="Investigation" ${callCategory === "Investigation" ? "selected" : ""}>Investigation</option>
+                    <option value="Standby" ${callCategory === "Standby" ? "selected" : ""}>Standby</option>
+                    <option value="Fire" ${callCategory === "Fire" ? "selected" : ""}>Fire</option>
+                    <option value="Special" ${callCategory === "Special" ? "selected" : ""}>Special</option>
+                </select>
+                <button onclick="confirmRemoveStrip(this)">Delete</button>
+            </div>
+        `;
+
+        container.prepend(strip);  // Use prepend instead of appendChild
+        saveStrips();
+    }
 
 
         function getCategoryColor(category) {
