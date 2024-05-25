@@ -154,6 +154,7 @@
             strip.classList.add('priority-status-flash');
         } else if (priorityStatus === 'Go') {
             strip.classList.add('go-status-flash');
+            openGoogleMaps(address);
         }
 
         strip.innerHTML = `
@@ -233,12 +234,21 @@
     function updatePriorityStatus(select) {
         const strip = select.closest('.strip');
         strip.classList.remove('priority-status-flash', 'go-status-flash');
+        const address = strip.querySelector('.full-width').value;
         if (select.value === 'Priority') {
             strip.classList.add('priority-status-flash');
         } else if (select.value === 'Go') {
             strip.classList.add('go-status-flash');
+            openGoogleMaps(address);
         }
         saveStrips();
+    }
+
+    function openGoogleMaps(address) {
+        if (address) {
+            const url = `https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=${encodeURIComponent(address)}&travelmode=bicycling`;
+            window.open(url, '_blank');
+        }
     }
 
     function confirmRemoveStrip(button) {
