@@ -110,11 +110,19 @@
             gap: 10px;
         }
         .priority-status-flash {
-            animation: flash-background 1s infinite;
+            animation: flash-background-priority 1s infinite;
         }
-        @keyframes flash-background {
+        .go-status-flash {
+            animation: flash-background-go 1s infinite;
+        }
+        @keyframes flash-background-priority {
             0% { background-color: #212224; }
             50% { background-color: orange; }
+            100% { background-color: #212224; }
+        }
+        @keyframes flash-background-go {
+            0% { background-color: #212224; }
+            50% { background-color: lightgreen; }
             100% { background-color: #212224; }
         }
     </style>
@@ -144,6 +152,8 @@
         strip.className = 'strip';
         if (priorityStatus === 'Priority') {
             strip.classList.add('priority-status-flash');
+        } else if (priorityStatus === 'Go') {
+            strip.classList.add('go-status-flash');
         }
 
         strip.innerHTML = `
@@ -175,6 +185,7 @@
                 <select class="priority-status" onchange="updatePriorityStatus(this)">
                     <option value="" ${priorityStatus === "" ? "selected" : ""}>Select</option>
                     <option value="Priority" ${priorityStatus === "Priority" ? "selected" : ""}>Priority</option>
+                    <option value="Go" ${priorityStatus === "Go" ? "selected" : ""}>Go</option>
                 </select>
                 <button onclick="confirmRemoveStrip(this)">Delete</button>
             </div>
@@ -221,10 +232,11 @@
 
     function updatePriorityStatus(select) {
         const strip = select.closest('.strip');
+        strip.classList.remove('priority-status-flash', 'go-status-flash');
         if (select.value === 'Priority') {
             strip.classList.add('priority-status-flash');
-        } else {
-            strip.classList.remove('priority-status-flash');
+        } else if (select.value === 'Go') {
+            strip.classList.add('go-status-flash');
         }
         saveStrips();
     }
