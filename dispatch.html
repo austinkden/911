@@ -48,6 +48,15 @@
         .map-place-container {
             display: flex;
         }
+        .notes-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .notes {
+            flex: 1;
+            margin-right: 10px;
+        }
         .strip button {
             align-self: flex-start;
             background-color: #ff4d4d;
@@ -55,6 +64,7 @@
             border: none;
             border-radius: 3px;
             cursor: pointer;
+            padding: 10px 20px;
         }
         .strip button:hover {
             background-color: #ff3333;
@@ -80,7 +90,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", loadStrips);
 
-        function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "") {
+        function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "", notes = "") {
             const container = document.getElementById('container');
             const strip = document.createElement('div');
             strip.className = 'strip';
@@ -95,7 +105,10 @@
                     <input type="text" class="place-name" placeholder="Place Name" value="${placeName}">
                     <input type="text" class="full-width" placeholder="Address" value="${address}">
                 </div>
-                <button onclick="removeStrip(this)">Delete</button>
+                <div class="notes-container">
+                    <input type="text" class="notes" placeholder="Notes" value="${notes}">
+                    <button onclick="removeStrip(this)">Delete</button>
+                </div>
             `;
 
             container.appendChild(strip);
@@ -103,7 +116,7 @@
         }
 
         function removeStrip(button) {
-            const strip = button.parentNode;
+            const strip = button.parentNode.parentNode;
             strip.remove();
             saveStrips();
         }
@@ -115,14 +128,15 @@
                 callType: strip.querySelector('.call-type').value,
                 mapPage: strip.querySelector('.map-page').value,
                 placeName: strip.querySelector('.place-name').value,
-                address: strip.querySelector('.full-width').value
+                address: strip.querySelector('.full-width').value,
+                notes: strip.querySelector('.notes').value
             }));
             localStorage.setItem('dispatchData', JSON.stringify(data));
         }
 
         function loadStrips() {
             const data = JSON.parse(localStorage.getItem('dispatchData') || '[]');
-            data.forEach(item => addStrip(item.respondingUnits, item.callType, item.mapPage, item.placeName, item.address));
+            data.forEach(item => addStrip(item.respondingUnits, item.callType, item.mapPage, item.placeName, item.address, item.notes));
         }
     </script>
 </body>
