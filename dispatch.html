@@ -98,8 +98,6 @@
             margin-bottom: 10px;
             display: flex;
             align-items: center;
-            padding: 5px;
-            border-radius: 5px;
         }
         .button-container {
             display: flex;
@@ -154,7 +152,7 @@
         }
 
         strip.innerHTML = `
-            <div class="call-type-header" style="background-color: ${getCategoryColor(callCategory)};">
+            <div class="call-type-header" style="color: ${getCategoryColor(callCategory)};">
                 <span class="header-text">${callType}</span>
             </div>
             <div class="input-group">
@@ -215,7 +213,7 @@
     function updateCallTypeHeader(input) {
         const header = input.parentElement.previousElementSibling;
         const callCategory = input.nextElementSibling.value;
-        header.style.backgroundColor = getCategoryColor(callCategory);
+        header.style.color = getCategoryColor(callCategory);
         header.querySelector(".header-text").textContent = input.value;
         saveStrips();
     }
@@ -223,7 +221,7 @@
     function updateCategory(select) {
         const strip = select.closest('.strip');
         const header = strip.querySelector('.call-type-header');
-        header.style.backgroundColor = getCategoryColor(select.value);
+        header.style.color = getCategoryColor(select.value);
         saveStrips();
     }
 
