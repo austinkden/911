@@ -246,7 +246,8 @@
 
     function openGoogleMaps(address) {
         if (address) {
-            const url = `https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=${encodeURIComponent(address)}&travelmode=bicycling`;
+            const origin = "7945 South Pennsylvania Ct";
+            const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(address)}&travelmode=bicycling`;
             window.open(url, '_blank');
         }
     }
