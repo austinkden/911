@@ -189,6 +189,8 @@
             element.addEventListener('keydown', handleKeyDown);
         });
 
+        strip.querySelector('.call-type').addEventListener('input', handleCallTypeInput);
+
         container.prepend(strip);  // Use prepend instead of appendChild
         saveStrips();
     }
@@ -207,6 +209,18 @@
             strip.querySelector('.priority-status').value = 'Go';
             updatePriorityStatus(strip.querySelector('.priority-status'));
         }
+    }
+
+    function handleCallTypeInput(event) {
+        const callTypeInput = event.target;
+        const callType = callTypeInput.value.toLowerCase();
+        const callCategorySelect = callTypeInput.closest('.strip').querySelector('.call-category');
+        
+        if (callType.includes("seizures") || callType.includes("medical") || callType.includes("fall")) {
+            callCategorySelect.value = "Medical";
+            updateCategory(callCategorySelect);
+        }
+        saveStrips();
     }
 
     function getCategoryColor(category) {
