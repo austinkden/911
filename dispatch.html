@@ -70,16 +70,24 @@
         .strip button:hover {
             background-color: #ff3333;
         }
-        .add-button {
+        .add-button, .delete-all-button {
             padding: 10px 20px;
-            background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 3px;
             cursor: pointer;
         }
+        .add-button {
+            background-color: #4CAF50;
+        }
         .add-button:hover {
             background-color: #45a049;
+        }
+        .delete-all-button {
+            background-color: #ff4d4d;
+        }
+        .delete-all-button:hover {
+            background-color: #ff3333;
         }
         .call-type-header {
             font-weight: bold;
@@ -93,11 +101,18 @@
             border-radius: 50%;
             margin-right: 10px;
         }
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>Dispatch Information</h1>
-    <button class="add-button" onclick="addStrip()">Add</button>
+    <div class="button-container">
+        <button class="add-button" onclick="addStrip()">Add</button>
+        <button class="delete-all-button" onclick="confirmRemoveAllStrips()">Delete All</button>
+    </div>
     <div id="container"></div>
 
     <script>
@@ -186,6 +201,18 @@
         function removeStrip(button) {
             const strip = button.parentNode.parentNode;
             strip.remove();
+            saveStrips();
+        }
+
+        function confirmRemoveAllStrips() {
+            if (confirm('Are you sure you want to delete all strips?')) {
+                removeAllStrips();
+            }
+        }
+
+        function removeAllStrips() {
+            const container = document.getElementById('container');
+            container.innerHTML = '';
             saveStrips();
         }
 
