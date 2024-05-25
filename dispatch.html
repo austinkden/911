@@ -98,12 +98,8 @@
             margin-bottom: 10px;
             display: flex;
             align-items: center;
-        }
-        .indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 10px;
+            padding: 5px;
+            border-radius: 5px;
         }
         .button-container {
             display: flex;
@@ -158,8 +154,7 @@
         }
 
         strip.innerHTML = `
-            <div class="call-type-header">
-                <div class="indicator" style="background-color: ${getCategoryColor(callCategory)};"></div>
+            <div class="call-type-header" style="background-color: ${getCategoryColor(callCategory)};">
                 <span class="header-text">${callType}</span>
             </div>
             <div class="input-group">
@@ -219,15 +214,16 @@
 
     function updateCallTypeHeader(input) {
         const header = input.parentElement.previousElementSibling;
-        header.querySelector(".indicator").style.backgroundColor = getCategoryColor(input.nextElementSibling.value);
+        const callCategory = input.nextElementSibling.value;
+        header.style.backgroundColor = getCategoryColor(callCategory);
         header.querySelector(".header-text").textContent = input.value;
         saveStrips();
     }
 
     function updateCategory(select) {
         const strip = select.closest('.strip');
-        const indicator = strip.querySelector('.indicator');
-        indicator.style.backgroundColor = getCategoryColor(select.value);
+        const header = strip.querySelector('.call-type-header');
+        header.style.backgroundColor = getCategoryColor(select.value);
         saveStrips();
     }
 
