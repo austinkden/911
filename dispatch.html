@@ -228,7 +228,7 @@ function handleCallTypeInput(event) {
     // Reset category if keywords are removed
     let newCategory = "";
 
-    if (callType.includes("seizures") || callType.includes("medical") || callType.includes("fall") || callType.includes("pain")) {
+    if (callType.includes("seizures") || callType.includes("medical") || callType.includes("fall") || callType.includes("pain") || callType.includes("sick")) {
         newCategory = "Medical";
     } else if (callType.includes("fire")) {
         newCategory = "Fire";
@@ -252,15 +252,6 @@ function handleCallTypeInput(event) {
 
     updateCategory(callCategorySelect);
     updateCallTypeHeader(callTypeInput); // Update header immediately
-
-    // Additional check to reset priority status if category has changed and no longer matches the criteria for automatic priority
-    if (previousCategory && previousCategory !== newCategory) {
-        if (!["MVA", "Fire", "Special"].includes(newCategory)) {
-            const priorityStatusSelect = callTypeInput.closest('.strip').querySelector('.priority-status');
-            priorityStatusSelect.value = ""; // Reset priority status if no longer applicable
-            updatePriorityStatus(priorityStatusSelect);
-        }
-    }
 
     saveStrips();
 }
@@ -300,14 +291,7 @@ function updateCallTypeHeader(input) {
 function updateCategory(select) {
     const strip = select.closest('.strip');
     const header = strip.querySelector('.call-type-header');
-    const priorityStatusSelect = strip.querySelector('.priority-status');
-
     header.style.color = getCategoryColor(select.value);
-    if (["MVA", "Fire", "Special"].includes(select.value)) {
-        priorityStatusSelect.value = "Priority";
-        updatePriorityStatus(priorityStatusSelect); // This will set and apply the correct class for flashing
-    }
-    
     saveStrips();
 }
 
