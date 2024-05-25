@@ -126,7 +126,7 @@
             strip.innerHTML = `
                 <div class="call-type-header">
                     <div class="indicator" style="background-color: ${getCategoryColor(callCategory)};"></div>
-                    ${callType}
+                    <span class="header-text">${callType}</span>
                 </div>
                 <div class="input-group">
                     <input type="text" class="responding-units" placeholder="Responding Units" value="${respondingUnits}">
@@ -181,7 +181,7 @@
         function updateCallTypeHeader(input) {
             const header = input.parentElement.previousElementSibling;
             header.querySelector(".indicator").style.backgroundColor = getCategoryColor(input.nextElementSibling.value);
-            header.textContent = input.value;
+            header.querySelector(".header-text").textContent = input.value;
             saveStrips();
         }
 
