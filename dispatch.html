@@ -80,6 +80,10 @@
         .add-button:hover {
             background-color: #45a049;
         }
+        .call-type-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -96,9 +100,10 @@
             strip.className = 'strip';
 
             strip.innerHTML = `
+                <div class="call-type-header">${callType}</div>
                 <div class="input-group">
                     <input type="text" class="responding-units" placeholder="Responding Units" value="${respondingUnits}">
-                    <input type="text" class="call-type" placeholder="Call Type" value="${callType}">
+                    <input type="text" class="call-type" placeholder="Call Type" value="${callType}" oninput="updateCallTypeHeader(this)">
                 </div>
                 <div class="map-place-container">
                     <input type="text" class="map-page" placeholder="Map Page" value="${mapPage}">
@@ -112,6 +117,12 @@
             `;
 
             container.appendChild(strip);
+            saveStrips();
+        }
+
+        function updateCallTypeHeader(input) {
+            const header = input.parentElement.previousElementSibling;
+            header.textContent = input.value;
             saveStrips();
         }
 
