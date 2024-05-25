@@ -157,7 +157,7 @@
             </div>
             <div class="input-group">
                 <input type="text" class="responding-units" placeholder="Responding Units" value="${respondingUnits}">
-                <input type="text" class="call-type" placeholder="Call Type" value="${callType}" oninput="updateCallTypeHeader(this)">
+                <input type="text" class="call-type" placeholder="Call Type" value="${callType}" oninput="handleCallTypeInput(event)">
             </div>
             <div class="map-place-container">
                 <input type="text" class="map-page" placeholder="Map Page" value="${mapPage}">
@@ -188,8 +188,6 @@
         strip.querySelectorAll('input, select').forEach(element => {
             element.addEventListener('keydown', handleKeyDown);
         });
-
-        strip.querySelector('.call-type').addEventListener('input', handleCallTypeInput);
 
         container.prepend(strip);  // Use prepend instead of appendChild
         saveStrips();
@@ -251,6 +249,8 @@
             updateCategory(callCategorySelect);
         }
 
+        updateCallTypeHeader(callTypeInput); // Update header immediately
+
         saveStrips();
     }
 
@@ -277,7 +277,7 @@
 
     function updateCallTypeHeader(input) {
         const header = input.parentElement.previousElementSibling;
-        const callCategory = input.nextElementSibling.value;
+        const callCategory = input.closest('.strip').querySelector('.call-category').value;
         header.style.color = getCategoryColor(callCategory);
         header.querySelector(".header-text").textContent = input.value;
         saveStrips();
