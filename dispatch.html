@@ -131,223 +131,231 @@
     <script>
     document.addEventListener("DOMContentLoaded", loadStrips);
 
-    function getCurrentTime() {
-        const now = new Date();
-        return now.toLocaleTimeString('en-GB', { hour12: false });
+// Add event listener for the space bar to add a new strip
+document.addEventListener('keydown', function(event) {
+    if (event.code === 'Space' && !event.target.matches('input, textarea')) {
+        event.preventDefault(); // Prevent the default action (scrolling down the page)
+        addStrip();
+    }
+});
+
+function getCurrentTime() {
+    const now = new Date();
+    return now.toLocaleTimeString('en-GB', { hour12: false });
+}
+
+function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "", notes = "", callCategory = "", priorityStatus = "") {
+    if (!notes) { // Check if notes is empty and if so, set to current time
+        notes = getCurrentTime();
     }
 
-    function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "", notes = "", callCategory = "", priorityStatus = "") {
-        if (!notes) { // Check if notes is empty and if so, set to current time
-            notes = getCurrentTime();
-        }
-
-        const container = document.getElementById('container');
-        const strip = document.createElement('div');
-        strip.className = 'strip';
-        if (priorityStatus === 'Priority') {
-            strip.classList.add('priority-status-flash');
-        } else if (priorityStatus === 'Go') {
-            strip.classList.add('go-status-flash');
-            openGoogleMaps(address);
-        }
-
-        strip.innerHTML = `
-            <div class="call-type-header" style="color: ${getCategoryColor(callCategory)};">
-                <span class="header-text">${callType}</span>
-            </div>
-            <div class="input-group">
-                <input type="text" class="responding-units" placeholder="Responding Units" value="${respondingUnits}">
-                <input type="text" class="call-type" placeholder="Call Type" value="${callType}" oninput="handleCallTypeInput(event)">
-            </div>
-            <div class="map-place-container">
-                <input type="text" class="map-page" placeholder="Map Page" value="${mapPage}">
-                <input type="text" class="place-name" placeholder="Place Name" value="${placeName}">
-                <input type="text" class="full-width" placeholder="Address" value="${address}">
-            </div>
-            <div class="notes-container">
-                <input type="text" class="notes" placeholder="Notes" value="${notes}">
-                <select class="call-category" onchange="updateCategory(this)">
-                    <option value="" ${callCategory === "" ? "selected" : ""}>Select Category</option>
-                    <option value="Medical" ${callCategory === "Medical" ? "selected" : ""}>Medical</option>
-                    <option value="MVA" ${callCategory === "MVA" ? "selected" : ""}>MVA</option>
-                    <option value="Alarm" ${callCategory === "Alarm" ? "selected" : ""}>Alarm</option>
-                    <option value="Investigation" ${callCategory === "Investigation" ? "selected" : ""}>Investigation</option>
-                    <option value="Standby" ${callCategory === "Standby" ? "selected" : ""}>Standby</option>
-                    <option value="Fire" ${callCategory === "Fire" ? "selected" : ""}>Fire</option>
-                    <option value="Special" ${callCategory === "Special" ? "selected" : ""}>Special</option>
-                </select>
-                <select class="priority-status" onchange="updatePriorityStatus(this)">
-                    <option value="" ${priorityStatus === "" ? "selected" : ""}>Select</option>
-                    <option value="Priority" ${priorityStatus === "Priority" ? "selected" : ""}>Priority</option>
-                    <option value="Go" ${priorityStatus === "Go" ? "selected" : ""}>Go</option>
-                </select>
-                <button onclick="removeStrip(this)">Delete</button>
-            </div>
-        `;
-
-        strip.querySelectorAll('input, select').forEach(element => {
-            element.addEventListener('keydown', handleKeyDown);
-        });
-
-        container.prepend(strip);  // Use prepend instead of appendChild
-        saveStrips();
+    const container = document.getElementById('container');
+    const strip = document.createElement('div');
+    strip.className = 'strip';
+    if (priorityStatus === 'Priority') {
+        strip.classList.add('priority-status-flash');
+    } else if (priorityStatus === 'Go') {
+        strip.classList.add('go-status-flash');
+        openGoogleMaps(address);
     }
 
-    function handleKeyDown(event) {
-        const strip = event.target.closest('.strip');
-        if (event.ctrlKey && event.key === 'x') {
-            event.preventDefault();
-            removeStrip(strip.querySelector('button'));
-        } else if (event.ctrlKey && event.key === 'q') {
-            event.preventDefault();
-            strip.querySelector('.priority-status').value = 'Priority';
-            updatePriorityStatus(strip.querySelector('.priority-status'));
-        } else if (event.ctrlKey && event.key === 'y') {
-            event.preventDefault();
-            strip.querySelector('.priority-status').value = 'Go';
-            updatePriorityStatus(strip.querySelector('.priority-status'));
-        }
+    strip.innerHTML = `
+        <div class="call-type-header" style="color: ${getCategoryColor(callCategory)};">
+            <span class="header-text">${callType}</span>
+        </div>
+        <div class="input-group">
+            <input type="text" class="responding-units" placeholder="Responding Units" value="${respondingUnits}">
+            <input type="text" class="call-type" placeholder="Call Type" value="${callType}" oninput="handleCallTypeInput(event)">
+        </div>
+        <div class="map-place-container">
+            <input type="text" class="map-page" placeholder="Map Page" value="${mapPage}">
+            <input type="text" class="place-name" placeholder="Place Name" value="${placeName}">
+            <input type="text" class="full-width" placeholder="Address" value="${address}">
+        </div>
+        <div class="notes-container">
+            <input type="text" class="notes" placeholder="Notes" value="${notes}">
+            <select class="call-category" onchange="updateCategory(this)">
+                <option value="" ${callCategory === "" ? "selected" : ""}>Select Category</option>
+                <option value="Medical" ${callCategory === "Medical" ? "selected" : ""}>Medical</option>
+                <option value="MVA" ${callCategory === "MVA" ? "selected" : ""}>MVA</option>
+                <option value="Alarm" ${callCategory === "Alarm" ? "selected" : ""}>Alarm</option>
+                <option value="Investigation" ${callCategory === "Investigation" ? "selected" : ""}>Investigation</option>
+                <option value="Standby" ${callCategory === "Standby" ? "selected" : ""}>Standby</option>
+                <option value="Fire" ${callCategory === "Fire" ? "selected" : ""}>Fire</option>
+                <option value="Special" ${callCategory === "Special" ? "selected" : ""}>Special</option>
+            </select>
+            <select class="priority-status" onchange="updatePriorityStatus(this)">
+                <option value="" ${priorityStatus === "" ? "selected" : ""}>Select</option>
+                <option value="Priority" ${priorityStatus === "Priority" ? "selected" : ""}>Priority</option>
+                <option value="Go" ${priorityStatus === "Go" ? "selected" : ""}>Go</option>
+            </select>
+            <button onclick="removeStrip(this)">Delete</button>
+        </div>
+    `;
+
+    strip.querySelectorAll('input, select').forEach(element => {
+        element.addEventListener('keydown', handleKeyDown);
+    });
+
+    container.prepend(strip);  // Use prepend instead of appendChild
+    saveStrips();
+}
+
+function handleKeyDown(event) {
+    const strip = event.target.closest('.strip');
+    if (event.ctrlKey && event.key === 'x') {
+        event.preventDefault();
+        removeStrip(strip.querySelector('button'));
+    } else if (event.ctrlKey && event.key === 'q') {
+        event.preventDefault();
+        strip.querySelector('.priority-status').value = 'Priority';
+        updatePriorityStatus(strip.querySelector('.priority-status'));
+    } else if (event.ctrlKey && event.key === 'y') {
+        event.preventDefault();
+        strip.querySelector('.priority-status').value = 'Go';
+        updatePriorityStatus(strip.querySelector('.priority-status'));
+    }
+}
+
+function handleCallTypeInput(event) {
+    const callTypeInput = event.target;
+    const callType = callTypeInput.value.toLowerCase();
+    const callCategorySelect = callTypeInput.closest('.strip').querySelector('.call-category');
+    
+    if (callType.includes("seizures") || callType.includes("medical") || callType.includes("fall") || callType.includes("pain")) {
+        callCategorySelect.value = "Medical";
+        updateCategory(callCategorySelect);
     }
 
-    function handleCallTypeInput(event) {
-        const callTypeInput = event.target;
-        const callType = callTypeInput.value.toLowerCase();
-        const callCategorySelect = callTypeInput.closest('.strip').querySelector('.call-category');
-        
-        if (callType.includes("seizures") || callType.includes("medical") || callType.includes("fall") || callType.includes("pain")) {
-            callCategorySelect.value = "Medical";
-            updateCategory(callCategorySelect);
-        }
-
-        if (callType.includes("fire")) {
-            callCategorySelect.value = "Fire";
-            updateCategory(callCategorySelect);
-        }
-
-        if (callType.includes("investigation")) {
-            callCategorySelect.value = "Investigation";
-            updateCategory(callCategorySelect);
-        }
-
-        if (callType.includes("fire alarm") || callType.includes("carbon") || callType.includes("co alarm") || callType.includes("monoxide")) {
-            callCategorySelect.value = "Alarm";
-            updateCategory(callCategorySelect);
-        }
-
-        if (callType.includes("mva")) {
-            callCategorySelect.value = "MVA";
-            updateCategory(callCategorySelect);
-        }
-
-        if (callType.includes("standby")) {
-            callCategorySelect.value = "Standby";
-            updateCategory(callCategorySelect);
-        }
-
-        if (callType.includes("air alert") || callType.includes("haz")) {
-            callCategorySelect.value = "Special";
-            updateCategory(callCategorySelect);
-        }
-
-        updateCallTypeHeader(callTypeInput); // Update header immediately
-
-        saveStrips();
+    if (callType.includes("fire")) {
+        callCategorySelect.value = "Fire";
+        updateCategory(callCategorySelect);
     }
 
-    function getCategoryColor(category) {
-        switch (category) {
-            case "Medical":
-                return "skyblue";
-            case "MVA":
-                return "darkgray";
-            case "Alarm":
-                return "pink";
-            case "Investigation":
-                return "green";
-            case "Standby":
-                return "yellow";
-            case "Fire":
-                return "#cc5500"; //orange
-            case "Special":
-                return "red";
-            default:
-                return "transparent";
-        }
+    if (callType.includes("investigation")) {
+        callCategorySelect.value = "Investigation";
+        updateCategory(callCategorySelect);
     }
 
-    function updateCallTypeHeader(input) {
-        const header = input.parentElement.previousElementSibling;
-        const callCategory = input.closest('.strip').querySelector('.call-category').value;
-        header.style.color = getCategoryColor(callCategory);
-        header.querySelector(".header-text").textContent = input.value;
-        saveStrips();
+    if (callType.includes("fire alarm") || callType.includes("carbon") || callType.includes("co alarm") || callType.includes("monoxide")) {
+        callCategorySelect.value = "Alarm";
+        updateCategory(callCategorySelect);
     }
 
-    function updateCategory(select) {
-        const strip = select.closest('.strip');
-        const header = strip.querySelector('.call-type-header');
-        header.style.color = getCategoryColor(select.value);
-        saveStrips();
+    if (callType.includes("mva")) {
+        callCategorySelect.value = "MVA";
+        updateCategory(callCategorySelect);
     }
 
-    function updatePriorityStatus(select) {
-        const strip = select.closest('.strip');
-        strip.classList.remove('priority-status-flash', 'go-status-flash');
-        const address = strip.querySelector('.full-width').value;
-        if (select.value === 'Priority') {
-            strip.classList.add('priority-status-flash');
-        } else if (select.value === 'Go') {
-            strip.classList.add('go-status-flash');
-            openGoogleMaps(address);
-        }
-        saveStrips();
+    if (callType.includes("standby")) {
+        callCategorySelect.value = "Standby";
+        updateCategory(callCategorySelect);
     }
 
-    function openGoogleMaps(address) {
-        if (address) {
-            const origin = "7945 South Pennsylvania Ct";
-            const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(address)}&travelmode=bicycling`;
-            window.open(url, '_blank');
-        }
+    if (callType.includes("air alert") || callType.includes("haz")) {
+        callCategorySelect.value = "Special";
+        updateCategory(callCategorySelect);
     }
 
-    function removeStrip(button) {
-        const strip = button.parentNode.parentNode;
-        strip.remove();
-        saveStrips();
-    }
+    updateCallTypeHeader(callTypeInput); // Update header immediately
 
-    function confirmRemoveAllStrips() {
-        if (confirm('Are you sure you want to delete all strips?')) {
-            removeAllStrips();
-        }
-    }
+    saveStrips();
+}
 
-    function removeAllStrips() {
-        const container = document.getElementById('container');
-        container.innerHTML = '';
-        saveStrips();
+function getCategoryColor(category) {
+    switch (category) {
+        case "Medical":
+            return "skyblue";
+        case "MVA":
+            return "darkgray";
+        case "Alarm":
+            return "pink";
+        case "Investigation":
+            return "green";
+        case "Standby":
+            return "yellow";
+        case "Fire":
+            return "#cc5500"; //orange
+        case "Special":
+            return "red";
+        default:
+            return "transparent";
     }
+}
 
-    function saveStrips() {
-        const strips = document.querySelectorAll('.strip');
-        const data = Array.from(strips).map(strip => ({
-            respondingUnits: strip.querySelector('.responding-units').value,
-            callType: strip.querySelector('.call-type').value,
-            mapPage: strip.querySelector('.map-page').value,
-            placeName: strip.querySelector('.place-name').value,
-            address: strip.querySelector('.full-width').value,
-            notes: strip.querySelector('.notes').value,
-            callCategory: strip.querySelector('.call-category').value,
-            priorityStatus: strip.querySelector('.priority-status').value
-        }));
-        localStorage.setItem('dispatchData', JSON.stringify(data));
-    }
+function updateCallTypeHeader(input) {
+    const header = input.parentElement.previousElementSibling;
+    const callCategory = input.closest('.strip').querySelector('.call-category').value;
+    header.style.color = getCategoryColor(callCategory);
+    header.querySelector(".header-text").textContent = input.value;
+    saveStrips();
+}
 
-    function loadStrips() {
-        const data = JSON.parse(localStorage.getItem('dispatchData') || '[]');
-        data.forEach(item => addStrip(item.respondingUnits, item.callType, item.mapPage, item.placeName, item.address, item.notes, item.callCategory, item.priorityStatus));
+function updateCategory(select) {
+    const strip = select.closest('.strip');
+    const header = strip.querySelector('.call-type-header');
+    header.style.color = getCategoryColor(select.value);
+    saveStrips();
+}
+
+function updatePriorityStatus(select) {
+    const strip = select.closest('.strip');
+    strip.classList.remove('priority-status-flash', 'go-status-flash');
+    const address = strip.querySelector('.full-width').value;
+    if (select.value === 'Priority') {
+        strip.classList.add('priority-status-flash');
+    } else if (select.value === 'Go') {
+        strip.classList.add('go-status-flash');
+        openGoogleMaps(address);
     }
+    saveStrips();
+}
+
+function openGoogleMaps(address) {
+    if (address) {
+        const origin = "7945 South Pennsylvania Ct";
+        const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(address)}&travelmode=bicycling`;
+        window.open(url, '_blank');
+    }
+}
+
+function removeStrip(button) {
+    const strip = button.parentNode.parentNode;
+    strip.remove();
+    saveStrips();
+}
+
+function confirmRemoveAllStrips() {
+    if (confirm('Are you sure you want to delete all strips?')) {
+        removeAllStrips();
+    }
+}
+
+function removeAllStrips() {
+    const container = document.getElementById('container');
+    container.innerHTML = '';
+    saveStrips();
+}
+
+function saveStrips() {
+    const strips = document.querySelectorAll('.strip');
+    const data = Array.from(strips).map(strip => ({
+        respondingUnits: strip.querySelector('.responding-units').value,
+        callType: strip.querySelector('.call-type').value,
+        mapPage: strip.querySelector('.map-page').value,
+        placeName: strip.querySelector('.place-name').value,
+        address: strip.querySelector('.full-width').value,
+        notes: strip.querySelector('.notes').value,
+        callCategory: strip.querySelector('.call-category').value,
+        priorityStatus: strip.querySelector('.priority-status').value
+    }));
+    localStorage.setItem('dispatchData', JSON.stringify(data));
+}
+
+function loadStrips() {
+    const data = JSON.parse(localStorage.getItem('dispatchData') || '[]');
+    data.forEach(item => addStrip(item.respondingUnits, item.callType, item.mapPage, item.placeName, item.address, item.notes, item.callCategory, item.priorityStatus));
+}
     </script>
 </body>
 </html>
