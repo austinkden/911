@@ -134,7 +134,7 @@
                         <option value="Fire" ${callCategory === "Fire" ? "selected" : ""}>Fire</option>
                         <option value="Special" ${callCategory === "Special" ? "selected" : ""}>Special</option>
                     </select>
-                    <button onclick="removeStrip(this)">Delete</button>
+                    <button onclick="confirmRemoveStrip(this)">Delete</button>
                 </div>
             `;
 
@@ -175,6 +175,12 @@
             const indicator = strip.querySelector('.indicator');
             indicator.style.backgroundColor = getCategoryColor(select.value);
             saveStrips();
+        }
+
+        function confirmRemoveStrip(button) {
+            if (confirm('Are you sure you want to delete this strip?')) {
+                removeStrip(button);
+            }
         }
 
         function removeStrip(button) {
