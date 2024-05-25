@@ -181,12 +181,32 @@
                     <option value="Priority" ${priorityStatus === "Priority" ? "selected" : ""}>Priority</option>
                     <option value="Go" ${priorityStatus === "Go" ? "selected" : ""}>Go</option>
                 </select>
-                <button onclick="confirmRemoveStrip(this)">Delete</button>
+                <button onclick="removeStrip(this)">Delete</button>
             </div>
         `;
 
+        strip.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('keydown', handleKeyDown);
+        });
+
         container.prepend(strip);  // Use prepend instead of appendChild
         saveStrips();
+    }
+
+    function handleKeyDown(event) {
+        const strip = event.target.closest('.strip');
+        if (event.ctrlKey && event.key === 'x') {
+            event.preventDefault();
+            removeStrip(strip.querySelector('button'));
+        } else if (event.ctrlKey && event.key === 'q') {
+            event.preventDefault();
+            strip.querySelector('.priority-status').value = 'Priority';
+            updatePriorityStatus(strip.querySelector('.priority-status'));
+        } else if (event.ctrlKey && event.key === 'y') {
+            event.preventDefault();
+            strip.querySelector('.priority-status').value = 'Go';
+            updatePriorityStatus(strip.querySelector('.priority-status'));
+        }
     }
 
     function getCategoryColor(category) {
@@ -246,12 +266,6 @@
         }
     }
 
-    function confirmRemoveStrip(button) {
-        if (confirm('Are you sure you want to delete this strip?')) {
-            removeStrip(button);
-        }
-    }
-
     function removeStrip(button) {
         const strip = button.parentNode.parentNode;
         strip.remove();
@@ -291,4 +305,4 @@
     }
     </script>
 </body>
-</html> 
+</html>
