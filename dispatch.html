@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Helvetica, sans-serif;
-            font-size: 16px; 
+            font-size: 16px;
         }
         .strip {
             display: flex;
@@ -19,7 +19,7 @@
             border-radius: 5px;
             background-color: #f9f9f9;
         }
-        .strip input, .strip button {
+        .strip input, .strip button, .strip select {
             margin-right: 10px;
             margin-bottom: 10px;
             padding: 5px;
@@ -84,6 +84,14 @@
         .call-type-header {
             font-weight: bold;
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -95,13 +103,16 @@
     <script>
         document.addEventListener("DOMContentLoaded", loadStrips);
 
-        function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "", notes = "") {
+        function addStrip(respondingUnits = "", callType = "", mapPage = "", placeName = "", address = "", notes = "", callCategory = "") {
             const container = document.getElementById('container');
             const strip = document.createElement('div');
             strip.className = 'strip';
 
             strip.innerHTML = `
-                <div class="call-type-header">${callType}</div>
+                <div class="call-type-header">
+                    <div class="indicator" style="background-color: ${getCategoryColor(callCategory)};"></div>
+                    ${callType}
+                </div>
                 <div class="input-group">
                     <input type="text" class="responding-units" placeholder="Responding Units" value="${respondingUnits}">
                     <input type="text" class="call-type" placeholder="Call Type" value="${callType}" oninput="updateCallTypeHeader(this)">
@@ -113,6 +124,16 @@
                 </div>
                 <div class="notes-container">
                     <input type="text" class="notes" placeholder="Notes" value="${notes}">
+                    <select class="call-category" onchange="updateCategory(this)">
+                        <option value="" ${callCategory === "" ? "selected" : ""}>Select Category</option>
+                        <option value="Medical" ${callCategory === "Medical" ? "selected" : ""}>Medical</option>
+                        <option value="MVA" ${callCategory === "MVA" ? "selected" : ""}>MVA</option>
+                        <option value="Alarm" ${callCategory === "Alarm" ? "selected" : ""}>Alarm</option>
+                        <option value="Investigation" ${callCategory === "Investigation" ? "selected" : ""}>Investigation</option>
+                        <option value="Standby" ${callCategory === "Standby" ? "selected" : ""}>Standby</option>
+                        <option value="Fire" ${callCategory === "Fire" ? "selected" : ""}>Fire</option>
+                        <option value="Special" ${callCategory === "Special" ? "selected" : ""}>Special</option>
+                    </select>
                     <button onclick="removeStrip(this)">Delete</button>
                 </div>
             `;
@@ -121,9 +142,38 @@
             saveStrips();
         }
 
+        function getCategoryColor(category) {
+            switch (category) {
+                case "Medical":
+                    return "lightblue";
+                case "MVA":
+                    return "lightgray";
+                case "Alarm":
+                    return "pink";
+                case "Investigation":
+                    return "leafygreen";
+                case "Standby":
+                    return "darkgray";
+                case "Fire":
+                    return "orange";
+                case "Special":
+                    return "red";
+                default:
+                    return "transparent";
+            }
+        }
+
         function updateCallTypeHeader(input) {
             const header = input.parentElement.previousElementSibling;
+            header.querySelector(".indicator").style.backgroundColor = getCategoryColor(input.nextElementSibling.value);
             header.textContent = input.value;
+            saveStrips();
+        }
+
+        function updateCategory(select) {
+            const strip = select.closest('.strip');
+            const indicator = strip.querySelector('.indicator');
+            indicator.style.backgroundColor = getCategoryColor(select.value);
             saveStrips();
         }
 
@@ -141,14 +191,15 @@
                 mapPage: strip.querySelector('.map-page').value,
                 placeName: strip.querySelector('.place-name').value,
                 address: strip.querySelector('.full-width').value,
-                notes: strip.querySelector('.notes').value
+                notes: strip.querySelector('.notes').value,
+                callCategory: strip.querySelector('.call-category').value
             }));
             localStorage.setItem('dispatchData', JSON.stringify(data));
         }
 
         function loadStrips() {
             const data = JSON.parse(localStorage.getItem('dispatchData') || '[]');
-            data.forEach(item => addStrip(item.respondingUnits, item.callType, item.mapPage, item.placeName, item.address, item.notes));
+            data.forEach(item => addStrip(item.respondingUnits, item.callType, item.mapPage, item.placeName, item.address, item.notes, item.callCategory));
         }
     </script>
 </body>
