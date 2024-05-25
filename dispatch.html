@@ -221,46 +221,48 @@ function handleCallTypeInput(event) {
     const callTypeInput = event.target;
     const callType = callTypeInput.value.toLowerCase();
     const callCategorySelect = callTypeInput.closest('.strip').querySelector('.call-category');
-    
+    const previousCategory = callCategorySelect.value;
+
+    // Reset category if keywords are removed
+    let newCategory = "";
+
     if (callType.includes("seizures") || callType.includes("medical") || callType.includes("fall") || callType.includes("pain")) {
-        callCategorySelect.value = "Medical";
-        updateCategory(callCategorySelect);
+        newCategory = "Medical";
+    } else if (callType.includes("fire")) {
+        newCategory = "Fire";
+    } else if (callType.includes("investigation")) {
+        newCategory = "Investigation";
+    } else if (callType.includes("fire alarm") || callType.includes("carbon") || callType.includes("co alarm") || callType.includes("monoxide")) {
+        newCategory = "Alarm";
+    } else if (callType.includes("mva")) {
+        newCategory = "MVA";
+    } else if (callType.includes("standby")) {
+        newCategory = "Standby";
+    } else if (callType.includes("air alert") || callType.includes("haz")) {
+        newCategory = "Special";
     }
 
-    if (callType.includes("fire")) {
-        callCategorySelect.value = "Fire";
-        updateCategory(callCategorySelect);
+    if (newCategory) {
+        callCategorySelect.value = newCategory;
+    } else {
+        callCategorySelect.value = ""; // Reset if no keyword matches
     }
 
-    if (callType.includes("investigation")) {
-        callCategorySelect.value = "Investigation";
-        updateCategory(callCategorySelect);
-    }
-
-    if (callType.includes("fire alarm") || callType.includes("carbon") || callType.includes("co alarm") || callType.includes("monoxide")) {
-        callCategorySelect.value = "Alarm";
-        updateCategory(callCategorySelect);
-    }
-
-    if (callType.includes("mva")) {
-        callCategorySelect.value = "MVA";
-        updateCategory(callCategorySelect);
-    }
-
-    if (callType.includes("standby")) {
-        callCategorySelect.value = "Standby";
-        updateCategory(callCategorySelect);
-    }
-
-    if (callType.includes("air alert") || callType.includes("haz")) {
-        callCategorySelect.value = "Special";
-        updateCategory(callCategorySelect);
-    }
-
+    updateCategory(callCategorySelect);
     updateCallTypeHeader(callTypeInput); // Update header immediately
+
+    // Additional check to reset priority status if category has changed and no longer matches the criteria for automatic priority
+    if (previousCategory && previousCategory !== newCategory) {
+        if (!["MVA", "Fire", "Special"].includes(newCategory)) {
+            const priorityStatusSelect = callTypeInput.closest('.strip').querySelector('.priority-status');
+            priorityStatusSelect.value = ""; // Reset priority status if no longer applicable
+            updatePriorityStatus(priorityStatusSelect);
+        }
+    }
 
     saveStrips();
 }
+
 
 function getCategoryColor(category) {
     switch (category) {
