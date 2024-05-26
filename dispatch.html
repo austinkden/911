@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -114,40 +114,16 @@
             animation: flash-background-priority 1s infinite;
         }
         .go-status-flash {
-            animation: flash-background-go 2s infinite;
-        }
-        .grab-status-flash {
-            animation: flash-background-grab 1s infinite;
-        }
-        .priority1-status-flash {
-            animation: flash-background-priority1 0.5s infinite;
-        }
-        .priority2-status-flash {
-            animation: flash-background-priority2 1s infinite;
+            animation: flash-background-go 1s infinite;
         }
         @keyframes flash-background-priority {
             0% { background-color: #212224; }
-            50% { background-color: red; }
+            50% { background-color: orange; }
             100% { background-color: #212224; }
         }
         @keyframes flash-background-go {
             0% { background-color: #212224; }
-            50% { background-color: green; }
-            100% { background-color: #212224; }
-        }
-        @keyframes flash-background-grab {
-            0% { background-color: #212224; }
-            50% { background-color: blue; }
-            100% { background-color: #212224; }
-        }
-        @keyframes flash-background-priority1 {
-            0% { background-color: #212224; }
-            50% { background-color: red; }
-            100% { background-color: #212224; }
-        }
-        @keyframes flash-background-priority2 {
-            0% { background-color: #212224; }
-            50% { background-color: orange; }
+            50% { background-color: lightgreen; }
             100% { background-color: #212224; }
         }
     </style>
@@ -191,7 +167,12 @@
         const container = document.getElementById('container');
         const strip = document.createElement('div');
         strip.className = 'strip';
-        updatePriorityStatusClass(strip, priorityStatus);
+        if (priorityStatus === 'Priority') {
+            strip.classList.add('priority-status-flash');
+        } else if (priorityStatus === 'Go') {
+            strip.classList.add('go-status-flash');
+            openGoogleMaps(address);
+        }
 
         strip.innerHTML = `
             <div class="call-type-header" style="color: ${getCategoryColor(callCategory)};">
@@ -221,55 +202,79 @@
                 </select>
                 <select class="priority-status" onchange="updatePriorityStatus(this)">
                     <option value="" ${priorityStatus === "" ? "selected" : ""}>Select</option>
-                    <option value="Grab" ${priorityStatus === "Grab" ? "selected" : ""}>Grab</option>
-                    <option value="Priority 1" ${priorityStatus === "Priority 1" ? "selected" : ""}>Priority 1</option>
-                    <option value="Priority 2" ${priorityStatus === "Priority 2" ? "selected" : ""}>Priority 2</option>
+                    <option value="Priority" ${priorityStatus === "Priority" ? "selected" : ""}>Priority</option>
                     <option value="Go" ${priorityStatus === "Go" ? "selected" : ""}>Go</option>
                 </select>
-                <button onclick="removeStrip(this)">Remove</button>
+                <button onclick="removeStrip(this)">DEL</button>
             </div>
         `;
 
-        container.appendChild(strip);
+        strip.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('keydown', handleKeyDown);
+            if (element.tagName === 'INPUT') {
+                element.addEventListener('blur', capitalizeText); // Attach blur event for capitalizing text
+            }
+        });
+
+        container.prepend(strip);  // Use prepend instead of appendChild
         saveStrips();
     }
 
-    function handleCallTypeInput(event) {
-        const inputElement = event.target;
-        const callType = inputElement.value.trim().toLowerCase();
-        const strip = inputElement.closest('.strip');
-        const categorySelect = strip.querySelector('.call-category');
-
-        if (callType.includes("mva")) {
-            categorySelect.value = "MVA";
-        } else if (callType.includes("med") || callType.includes("inj") || callType.includes("sick") || callType.includes("fall") || callType.includes("uncon")) {
-            categorySelect.value = "Medical";
-        } else if (callType.includes("alarm")) {
-            categorySelect.value = "Alarm";
-        } else if (callType.includes("inv")) {
-            categorySelect.value = "Investigation";
-        } else if (callType.includes("standby")) {
-            categorySelect.value = "Standby";
-        } else if (callType.includes("fire")) {
-            categorySelect.value = "Fire";
-        } else if (callType.includes("spec")) {
-            categorySelect.value = "Special";
-        } else {
-            categorySelect.value = "";
+    function handleKeyDown(event) {
+        const strip = event.target.closest('.strip');
+        if (event.ctrlKey && event.key === 'x') {
+            event.preventDefault();
+            removeStrip(strip.querySelector('button'));
+        } else if (event.ctrlKey && event.key === 'q') {
+            event.preventDefault();
+            strip.querySelector('.priority-status').value = 'Priority';
+            updatePriorityStatus(strip.querySelector('.priority-status'));
+        } else if (event.ctrlKey && event.key === 'y') {
+            event.preventDefault();
+            strip.querySelector('.priority-status').value = 'Go';
+            updatePriorityStatus(strip.querySelector('.priority-status'));
         }
-
-        updateCategory(categorySelect);
     }
 
-    function updateCategory(selectElement) {
-        const strip = selectElement.closest('.strip');
-        const headerText = strip.querySelector('.call-type-header .header-text');
-        const selectedCategory = selectElement.value;
-        headerText.style.color = getCategoryColor(selectedCategory);
-        saveStrips();
+    function handleCallTypeInput
+(event) {
+    const callTypeInput = event.target;
+    const callType = callTypeInput.value.toLowerCase();
+    const callCategorySelect = callTypeInput.closest('.strip').querySelector('.call-category');
+    const previousCategory = callCategorySelect.value;
+
+    // Reset category if keywords are removed
+    let newCategory = "";
+
+    if (callType.includes("seizures") || callType.includes("medical") || callType.includes("fall") || callType.includes("pain") || callType.includes("sick") || callType.includes("heart") || callType.includes("breathing")) {
+        newCategory = "Medical";
+    } else if (callType.includes("outside fire") || callType.includes("structure fire")) {
+        newCategory = "Fire";
+    } else if (callType.includes("investigation")) {
+        newCategory = "Investigation";
+    } else if (callType.includes("fire alarm") || callType.includes("carbon") || callType.includes("co alarm") || callType.includes("monoxide")) {
+        newCategory = "Alarm";
+    } else if (callType.includes("mva")) {
+        newCategory = "MVA";
+    } else if (callType.includes("standby")) {
+        newCategory = "Standby";
+    } else if (callType.includes("air alert") || callType.includes("haz")) {
+        newCategory = "Special";
     }
 
-    function getCategoryColor(category) {
+    if (newCategory) {
+        callCategorySelect.value = newCategory;
+    } else {
+        callCategorySelect.value = ""; // Reset if no keyword matches
+    }
+
+    updateCategory(callCategorySelect);
+    updateCallTypeHeader(callTypeInput); // Update header immediately
+
+    saveStrips();
+}
+
+function getCategoryColor(category) {
     switch (category) {
         case "Medical":
             return "skyblue";
@@ -289,83 +294,91 @@
             return "white";
         default:
             return "white";
-        }
     }
+}
 
-    function updatePriorityStatus(selectElement) {
-        const strip = selectElement.closest('.strip');
-        const selectedPriority = selectElement.value;
-        updatePriorityStatusClass(strip, selectedPriority);
 
-        // Automatically open Google Maps for "Go" status
-        if (selectedPriority === 'Go') {
-            const address = strip.querySelector('.full-width').value;
-            const origin = '365 W 5th Ave, Vancouver, BC';
-            const destination = encodeURIComponent(address);
-            window.open(`https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`, '_blank');
-        }
+function updateCallTypeHeader(input) {
+    const header = input.parentElement.previousElementSibling;
+    const callCategory = input.closest('.strip').querySelector('.call-category').value;
+    header.style.color = getCategoryColor(callCategory);
+    header.querySelector(".header-text").textContent = input.value;
+    saveStrips();
+}
 
-        saveStrips();
+function updateCategory(select) {
+    const strip = select.closest('.strip');
+    const header = strip.querySelector('.call-type-header');
+    header.style.color = getCategoryColor(select.value);
+    saveStrips();
+}
+
+function updatePriorityStatus(select) {
+    const strip = select.closest('.strip');
+    strip.classList.remove('priority-status-flash', 'go-status-flash');
+    const address = strip.querySelector('.full-width').value;
+    if (select.value === 'Priority') {
+        strip.classList.add('priority-status-flash');
+    } else if (select.value === 'Go') {
+        strip.classList.add('go-status-flash');
+        openGoogleMaps(address);
     }
+    saveStrips();
+}
 
-    function updatePriorityStatusClass(strip, selectedPriority) {
-        strip.classList.remove('priority-status-flash', 'go-status-flash', 'grab-status-flash', 'priority1-status-flash', 'priority2-status-flash');
-        switch (selectedPriority) {
-            case 'Grab':
-                strip.classList.add('grab-status-flash');
-                break;
-            case 'Priority 1':
-                strip.classList.add('priority1-status-flash');
-                break;
-            case 'Priority 2':
-                strip.classList.add('priority2-status-flash');
-                break;
-            case 'Go':
-                strip.classList.add('go-status-flash');
-                break;
-        }
+function openGoogleMaps(address) {
+    if (address) {
+        const origin = "7945 South Pennsylvania Ct";
+        const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(address)}&travelmode=bicycling`;
+        window.open(url, '_blank');
     }
+}
 
-    function removeStrip(buttonElement) {
-        const strip = buttonElement.closest('.strip');
-        strip.remove();
-        saveStrips();
-    }
+function capitalizeText(event) {
+    const input = event.target;
+    input.value = input.value.toUpperCase();
+}
 
-    function confirmRemoveAllStrips() {
-        if (confirm("Are you sure you want to remove all strips?")) {
-            removeAllStrips();
-        }
+function removeStrip(button) {
+    if (confirm('Are you sure you want to delete this strip?')) {
+    const strip = button.parentNode.parentNode;
+    strip.remove();
+    saveStrips();
     }
+}
 
-    function removeAllStrips() {
-        const container = document.getElementById('container');
-        container.innerHTML = '';
-        saveStrips();
+function confirmRemoveAllStrips() {
+    if (confirm('Are you sure you want to delete all strips?')) {
+        removeAllStrips();
     }
+}
 
-    function saveStrips() {
-        const strips = Array.from(document.querySelectorAll('.strip')).map(strip => {
-            return {
-                respondingUnits: strip.querySelector('.responding-units').value,
-                callType: strip.querySelector('.call-type').value,
-                mapPage: strip.querySelector('.map-page').value,
-                placeName: strip.querySelector('.place-name').value,
-                address: strip.querySelector('.full-width').value,
-                notes: strip.querySelector('.notes').value,
-                callCategory: strip.querySelector('.call-category').value,
-                priorityStatus: strip.querySelector('.priority-status').value
-            };
-        });
-        localStorage.setItem('strips', JSON.stringify(strips));
-    }
+function removeAllStrips() {
+    const container = document.getElementById('container');
+    container.innerHTML = '';
+    saveStrips();
+}
 
-    function loadStrips() {
-        const strips = JSON.parse(localStorage.getItem('strips')) || [];
-        strips.forEach(strip => {
-            addStrip(strip.respondingUnits, strip.callType, strip.mapPage, strip.placeName, strip.address, strip.notes, strip.callCategory, strip.priorityStatus);
-        });
-    }
+function saveStrips() {
+    const strips = document.querySelectorAll('.strip');
+    const data = Array.from(strips).map(strip => ({
+        respondingUnits: strip.querySelector('.responding-units').value,
+        callType: strip.querySelector('.call-type').value,
+        mapPage: strip.querySelector('.map-page').value,
+        placeName: strip.querySelector('.place-name').value,
+        address: strip.querySelector('.full-width').value,
+        notes: strip.querySelector('.notes').value,
+        callCategory: strip.querySelector('.call-category').value,
+        priorityStatus: strip.querySelector('.priority-status').value
+    }));
+    localStorage.setItem('dispatchData', JSON.stringify(data));
+}
+
+function loadStrips() {
+    const data = JSON.parse(localStorage.getItem('dispatchData') || '[]');
+    data.reverse().forEach(item => addStrip(item.respondingUnits, item.callType, item.mapPage, item.placeName, item.address, item.notes, item.callCategory, item.priorityStatus));
+}
+
     </script>
 </body>
 </html>
