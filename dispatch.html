@@ -1,4 +1,4 @@
-<!<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -110,13 +110,29 @@
             display: flex;
             gap: 10px;
         }
-        .priority-status-flash {
-            animation: flash-background-priority 1s infinite;
+        .grab-status-flash {
+            animation: flash-background-grab 1s infinite;
+        }
+        .priority1-status-flash {
+            animation: flash-background-priority1 0.75s infinite;
+        }
+        .priority2-status-flash {
+            animation: flash-background-priority2 1.25s infinite;
         }
         .go-status-flash {
-            animation: flash-background-go 1s infinite;
+            animation: flash-background-go 1.5s infinite;
         }
-        @keyframes flash-background-priority {
+        @keyframes flash-background-grab {
+            0% { background-color: #212224; }
+            50% { background-color: blue; }
+            100% { background-color: #212224; }
+        }
+        @keyframes flash-background-priority1 {
+            0% { background-color: #212224; }
+            50% { background-color: red; }
+            100% { background-color: #212224; }
+        }
+        @keyframes flash-background-priority2 {
             0% { background-color: #212224; }
             50% { background-color: orange; }
             100% { background-color: #212224; }
@@ -167,8 +183,12 @@
         const container = document.getElementById('container');
         const strip = document.createElement('div');
         strip.className = 'strip';
-        if (priorityStatus === 'Priority') {
-            strip.classList.add('priority-status-flash');
+        if (priorityStatus === 'Grab') {
+            strip.classList.add('grab-status-flash');
+        } else if (priorityStatus === 'Priority 1') {
+            strip.classList.add('priority1-status-flash');
+        } else if (priorityStatus === 'Priority 2') {
+            strip.classList.add('priority2-status-flash');
         } else if (priorityStatus === 'Go') {
             strip.classList.add('go-status-flash');
             openGoogleMaps(address);
@@ -202,183 +222,128 @@
                 </select>
                 <select class="priority-status" onchange="updatePriorityStatus(this)">
                     <option value="" ${priorityStatus === "" ? "selected" : ""}>Select</option>
-                    <option value="Priority" ${priorityStatus === "Priority" ? "selected" : ""}>Priority</option>
+                    <option value="Grab" ${priorityStatus === "Grab" ? "selected" : ""}>Grab</option>
+                    <option value="Priority 1" ${priorityStatus === "Priority 1" ? "selected" : ""}>Priority 1</option>
+                    <option value="Priority 2" ${priorityStatus === "Priority 2" ? "selected" : ""}>Priority 2</option>
                     <option value="Go" ${priorityStatus === "Go" ? "selected" : ""}>Go</option>
                 </select>
-                <button onclick="removeStrip(this)">DEL</button>
+                <button onclick="removeStrip(this)">Remove</button>
             </div>
         `;
 
-        strip.querySelectorAll('input, select').forEach(element => {
-            element.addEventListener('keydown', handleKeyDown);
-            if (element.tagName === 'INPUT') {
-                element.addEventListener('blur', capitalizeText); // Attach blur event for capitalizing text
-            }
+        // Add focusout event listener to capitalize input values
+        strip.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focusout', () => {
+                input.value = input.value.toUpperCase();
+            });
         });
 
-        container.prepend(strip);  // Use prepend instead of appendChild
+        container.appendChild(strip);
         saveStrips();
     }
 
-    function handleKeyDown(event) {
-        const strip = event.target.closest('.strip');
-        if (event.ctrlKey && event.key === 'x') {
-            event.preventDefault();
-            removeStrip(strip.querySelector('button'));
-        } else if (event.ctrlKey && event.key === 'q') {
-            event.preventDefault();
-            strip.querySelector('.priority-status').value = 'Priority';
-            updatePriorityStatus(strip.querySelector('.priority-status'));
-        } else if (event.ctrlKey && event.key === 'y') {
-            event.preventDefault();
-            strip.querySelector('.priority-status').value = 'Go';
-            updatePriorityStatus(strip.querySelector('.priority-status'));
+    function removeStrip(button) {
+        const strip = button.closest('.strip');
+        strip.remove();
+        saveStrips();
+    }
+
+    function confirmRemoveAllStrips() {
+        if (confirm("Are you sure you want to remove all strips?")) {
+            removeAllStrips();
         }
     }
 
-    function handleCallTypeInput
-(event) {
-    const callTypeInput = event.target;
-    const callType = callTypeInput.value.toLowerCase();
-    const callCategorySelect = callTypeInput.closest('.strip').querySelector('.call-category');
-    const previousCategory = callCategorySelect.value;
-
-    // Reset category if keywords are removed
-    let newCategory = "";
-
-    if (callType.includes("seizures") || callType.includes("medical") || callType.includes("fall") || callType.includes("pain") || callType.includes("sick") || callType.includes("heart") || callType.includes("breathing")) {
-        newCategory = "Medical";
-    } else if (callType.includes("outside fire") || callType.includes("structure fire")) {
-        newCategory = "Fire";
-    } else if (callType.includes("investigation")) {
-        newCategory = "Investigation";
-    } else if (callType.includes("fire alarm") || callType.includes("carbon") || callType.includes("co alarm") || callType.includes("monoxide")) {
-        newCategory = "Alarm";
-    } else if (callType.includes("mva")) {
-        newCategory = "MVA";
-    } else if (callType.includes("standby")) {
-        newCategory = "Standby";
-    } else if (callType.includes("air alert") || callType.includes("haz")) {
-        newCategory = "Special";
+    function removeAllStrips() {
+        const container = document.getElementById('container');
+        container.innerHTML = '';
+        saveStrips();
     }
 
-    if (newCategory) {
-        callCategorySelect.value = newCategory;
-    } else {
-        callCategorySelect.value = ""; // Reset if no keyword matches
+    function updateCategory(selectElement) {
+        const strip = selectElement.closest('.strip');
+        const callTypeHeader = strip.querySelector('.call-type-header');
+        callTypeHeader.style.color = getCategoryColor(selectElement.value);
+        saveStrips();
     }
 
-    updateCategory(callCategorySelect);
-    updateCallTypeHeader(callTypeInput); // Update header immediately
+    function updatePriorityStatus(selectElement) {
+        const strip = selectElement.closest('.strip');
+        strip.classList.remove('grab-status-flash', 'priority1-status-flash', 'priority2-status-flash', 'go-status-flash');
+        const selectedStatus = selectElement.value;
 
-    saveStrips();
-}
-
-function getCategoryColor(category) {
-    switch (category) {
-        case "Medical":
-            return "skyblue";
-        case "MVA":
-            return "magenta";
-        case "Alarm":
-            return "pink";
-        case "Investigation":
-            return "green";
-        case "Standby":
-            return "yellow";
-        case "Fire":
-            return "#cc5500"; //orange
-        case "Special":
-            return "#1f1f1f"; //red
-        case "Other":
-            return "white";
-        default:
-            return "white";
+        if (selectedStatus === 'Grab') {
+            strip.classList.add('grab-status-flash');
+        } else if (selectedStatus === 'Priority 1') {
+            strip.classList.add('priority1-status-flash');
+        } else if (selectedStatus === 'Priority 2') {
+            strip.classList.add('priority2-status-flash');
+        } else if (selectedStatus === 'Go') {
+            strip.classList.add('go-status-flash');
+            const address = strip.querySelector('.full-width').value;
+            openGoogleMaps(address);
+        }
+        saveStrips();
     }
-}
 
-
-function updateCallTypeHeader(input) {
-    const header = input.parentElement.previousElementSibling;
-    const callCategory = input.closest('.strip').querySelector('.call-category').value;
-    header.style.color = getCategoryColor(callCategory);
-    header.querySelector(".header-text").textContent = input.value;
-    saveStrips();
-}
-
-function updateCategory(select) {
-    const strip = select.closest('.strip');
-    const header = strip.querySelector('.call-type-header');
-    header.style.color = getCategoryColor(select.value);
-    saveStrips();
-}
-
-function updatePriorityStatus(select) {
-    const strip = select.closest('.strip');
-    strip.classList.remove('priority-status-flash', 'go-status-flash');
-    const address = strip.querySelector('.full-width').value;
-    if (select.value === 'Priority') {
-        strip.classList.add('priority-status-flash');
-    } else if (select.value === 'Go') {
-        strip.classList.add('go-status-flash');
-        openGoogleMaps(address);
+    function handleCallTypeInput(event) {
+        const callTypeInput = event.target;
+        const callTypeHeader = callTypeInput.closest('.strip').querySelector('.call-type-header');
+        callTypeHeader.textContent = callTypeInput.value;
     }
-    saveStrips();
-}
 
-function openGoogleMaps(address) {
-    if (address) {
-        const origin = "7945 South Pennsylvania Ct";
-        const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(address)}&travelmode=bicycling`;
-        window.open(url, '_blank');
+    function getCategoryColor(category) {
+        switch (category) {
+            case 'Medical':
+                return 'lightblue';
+            case 'MVA':
+                return 'purple';
+            case 'Alarm':
+                return 'yellow';
+            case 'Investigation':
+                return 'cyan';
+            case 'Standby':
+                return 'grey';
+            case 'Fire':
+                return 'red';
+            case 'Special':
+                return 'orange';
+            case 'Other':
+                return 'green';
+            default:
+                return 'white';
+        }
     }
-}
 
-function capitalizeText(event) {
-    const input = event.target;
-    input.value = input.value.toUpperCase();
-}
-
-function removeStrip(button) {
-    if (confirm('Are you sure you want to delete this strip?')) {
-    const strip = button.parentNode.parentNode;
-    strip.remove();
-    saveStrips();
+    function saveStrips() {
+        const container = document.getElementById('container');
+        const strips = container.querySelectorAll('.strip');
+        const stripsData = Array.from(strips).map(strip => {
+            const respondingUnits = strip.querySelector('.responding-units').value;
+            const callType = strip.querySelector('.call-type').value;
+            const mapPage = strip.querySelector('.map-page').value;
+            const placeName = strip.querySelector('.place-name').value;
+            const address = strip.querySelector('.full-width').value;
+            const notes = strip.querySelector('.notes').value;
+            const callCategory = strip.querySelector('.call-category').value;
+            const priorityStatus = strip.querySelector('.priority-status').value;
+            return { respondingUnits, callType, mapPage, placeName, address, notes, callCategory, priorityStatus };
+        });
+        localStorage.setItem('strips', JSON.stringify(stripsData));
     }
-}
 
-function confirmRemoveAllStrips() {
-    if (confirm('Are you sure you want to delete all strips?')) {
-        removeAllStrips();
+    function loadStrips() {
+        const stripsData = JSON.parse(localStorage.getItem('strips')) || [];
+        stripsData.forEach(stripData => addStrip(stripData.respondingUnits, stripData.callType, stripData.mapPage, stripData.placeName, stripData.address, stripData.notes, stripData.callCategory, stripData.priorityStatus));
     }
-}
 
-function removeAllStrips() {
-    const container = document.getElementById('container');
-    container.innerHTML = '';
-    saveStrips();
-}
-
-function saveStrips() {
-    const strips = document.querySelectorAll('.strip');
-    const data = Array.from(strips).map(strip => ({
-        respondingUnits: strip.querySelector('.responding-units').value,
-        callType: strip.querySelector('.call-type').value,
-        mapPage: strip.querySelector('.map-page').value,
-        placeName: strip.querySelector('.place-name').value,
-        address: strip.querySelector('.full-width').value,
-        notes: strip.querySelector('.notes').value,
-        callCategory: strip.querySelector('.call-category').value,
-        priorityStatus: strip.querySelector('.priority-status').value
-    }));
-    localStorage.setItem('dispatchData', JSON.stringify(data));
-}
-
-function loadStrips() {
-    const data = JSON.parse(localStorage.getItem('dispatchData') || '[]');
-    data.reverse().forEach(item => addStrip(item.respondingUnits, item.callType, item.mapPage, item.placeName, item.address, item.notes, item.callCategory, item.priorityStatus));
-}
-
+    function openGoogleMaps(address) {
+        if (address.trim() !== "") {
+            const encodedAddress = encodeURIComponent(address);
+            const url = `https://www.google.com/maps?q=${encodedAddress}`;
+            window.open(url, '_blank');
+        }
+    }
     </script>
 </body>
 </html>
