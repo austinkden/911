@@ -246,9 +246,9 @@
     // Reset category if keywords are removed
     let newCategory = "";
 
-    if (callType.includes("seizure") || callType.includes("medical") || callType.includes("fall") || callType.includes("pain") || callType.includes("sick")) || callType.includes("heart") || callType.includes("breathing")) {
+    if (callType.includes("seizures") || callType.includes("medical") || callType.includes("fall") || callType.includes("pain") || callType.includes("sick")) {
         newCategory = "Medical";
-    } else if (callType.includes("outside fire") || callType.includes("structure fire")) {
+    } else if (callType.includes("fire")) {
         newCategory = "Fire";
     } else if (callType.includes("investigation")) {
         newCategory = "Investigation";
@@ -258,12 +258,9 @@
         newCategory = "MVA";
     } else if (callType.includes("standby")) {
         newCategory = "Standby";
-    } else if (callType.includes("air alert") || callType.includes("haz") || callType.includes("dive") || callType.includes("rescue")) {
+    } else if (callType.includes("air alert") || callType.includes("haz")) {
         newCategory = "Special";
-    } else if (callType.includes("elevator")) {
-        newCategory = "Other";
     }
-    
 
     if (newCategory) {
         callCategorySelect.value = newCategory;
