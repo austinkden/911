@@ -248,7 +248,7 @@
 
     if (callType.includes("seizures") || callType.includes("medical") || callType.includes("fall") || callType.includes("pain") || callType.includes("sick") || callType.includes("heart") || callType.includes("breathing")) {
         newCategory = "Medical";
-    } else if (callType.includes("fire")) {
+    } else if (callType.includes("outside fire") || callType.includes("structure fire")) {
         newCategory = "Fire";
     } else if (callType.includes("investigation")) {
         newCategory = "Investigation";
