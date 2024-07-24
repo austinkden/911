@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMFR Response Guide Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SMFR Response Guide Quiz</h1>
+        <button id="generate">Generate Incident</button>
+        <div id="incident"></div>
+        <form id="unitForm">
+            <h2>Select the units that go to the call:</h2>
+            <!-- Units checkboxes will be populated here by JavaScript -->
+        </form>
+        <button id="submit">Submit</button>
+        <div id="result"></div>
+    </div>
+    <script>
+        const incidents = {
+            "Reported Structure Fire": ["Engine 1", "Ladder 1", "Medic 1", "Battalion Chief 1"],
+            "Medical Emergency": ["Medic 1", "Medic 2", "Battalion Chief 2"],
+            "Hazardous Materials Incident": ["Hazmat 1", "Engine 2", "Battalion Chief 3"],
+            "Vehicle Accident": ["Engine 3", "Medic 3", "Battalion Chief 4"],
+            "Technical Rescue": ["Rescue 1", "Engine 4", "Medic 4", "Battalion Chief 5"]
+        };
+
+        const units = ["Engine 1", "Engine 2", "Engine 3", "Engine 4", "Ladder 1", "Medic 1", "Medic 2", "Medic 3", "Medic 4", "Battalion Chief 1", "Battalion Chief 2", "Battalion Chief 3", "Battalion Chief 4", "Battalion Chief 5", "Hazmat 1", "Rescue 1"];
+
+        document.getElementById('generate').addEventListener('click', generateIncident);
+        document.getElementById('submit').addEventListener('click', gradeQuiz);
+
+        function generateIncident() {
+            const incidentNames = Object.keys(incidents);
+            const randomIncident = incidentNames[Math.floor(Math.random() * incidentNames.length)];
+            document.getElementById('incident').innerText = randomIncident;
+            generateUnitChecklist();
+        }
+
+        function generateUnitChecklist() {
+            const unitForm = document.getElementById('unitForm');
+            unitForm.innerHTML = "";
+            units.forEach(unit => {
+                const label = document.createElement('label');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = unit;
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(unit));
+                unitForm.appendChild(label);
+                unitForm.appendChild(document.createElement('br'));
+            });
+        }
+
+        function gradeQuiz() {
+            const selectedUnits = Array.from(document.querySelectorAll('#unitForm input:checked')).map(input => input.value);
+            const incident = document.getElementById('incident').innerText;
+            const correctUnits = incidents[incident];
+
+            let correctCount = 0;
+            selectedUnits.forEach(unit => {
+                if (correctUnits.includes(unit)) {
+                    correctCount++;
+                }
+            });
+
+            const score = (correctCount / correctUnits.length) * 100;
+            document.getElementById('result').innerText = `Your score: ${score.toFixed(2)}%`;
+        }
+    </script>
+</body>
+</html>
