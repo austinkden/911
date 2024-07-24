@@ -37,6 +37,19 @@
         button:hover {
             background-color: #0056b3;
         }
+        .unit-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .unit-input label {
+            margin-right: 10px;
+            width: 100px;
+        }
+        .unit-input input {
+            width: 50px;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
@@ -45,22 +58,43 @@
         <button id="generate">Generate Incident</button>
         <div id="incident"></div>
         <form id="unitForm">
-            <h2>Select the units that go to the call:</h2>
-            <!-- Units checkboxes will be populated here by JavaScript -->
+            <h2>Enter the number of units that go to the call:</h2>
+            <div class="unit-input">
+                <label for="engine">Engine:</label>
+                <input type="number" id="engine" name="engine" min="0" value="0">
+            </div>
+            <div class="unit-input">
+                <label for="ladder">Ladder:</label>
+                <input type="number" id="ladder" name="ladder" min="0" value="0">
+            </div>
+            <div class="unit-input">
+                <label for="medic">Medic:</label>
+                <input type="number" id="medic" name="medic" min="0" value="0">
+            </div>
+            <div class="unit-input">
+                <label for="battalionChief">Battalion Chief:</label>
+                <input type="number" id="battalionChief" name="battalionChief" min="0" value="0">
+            </div>
+            <div class="unit-input">
+                <label for="hazmat">Hazmat:</label>
+                <input type="number" id="hazmat" name="hazmat" min="0" value="0">
+            </div>
+            <div class="unit-input">
+                <label for="rescue">Rescue:</label>
+                <input type="number" id="rescue" name="rescue" min="0" value="0">
+            </div>
         </form>
         <button id="submit">Submit</button>
         <div id="result"></div>
     </div>
     <script>
         const incidents = {
-            "Reported Structure Fire": ["Engine 1", "Ladder 1", "Medic 1", "Battalion Chief 1"],
-            "Medical Emergency": ["Medic 1", "Medic 2", "Battalion Chief 2"],
-            "Hazardous Materials Incident": ["Hazmat 1", "Engine 2", "Battalion Chief 3"],
-            "Vehicle Accident": ["Engine 3", "Medic 3", "Battalion Chief 4"],
-            "Technical Rescue": ["Rescue 1", "Engine 4", "Medic 4", "Battalion Chief 5"]
+            "Reported Structure Fire": { engine: 1, ladder: 1, medic: 1, battalionChief: 1, hazmat: 0, rescue: 0 },
+            "Medical Emergency": { engine: 0, ladder: 0, medic: 2, battalionChief: 1, hazmat: 0, rescue: 0 },
+            "Hazardous Materials Incident": { engine: 1, ladder: 0, medic: 0, battalionChief: 1, hazmat: 1, rescue: 0 },
+            "Vehicle Accident": { engine: 1, ladder: 0, medic: 1, battalionChief: 1, hazmat: 0, rescue: 0 },
+            "Technical Rescue": { engine: 1, ladder: 0, medic: 1, battalionChief: 1, hazmat: 0, rescue: 1 }
         };
-
-        const units = ["Engine 1", "Engine 2", "Engine 3", "Engine 4", "Ladder 1", "Medic 1", "Medic 2", "Medic 3", "Medic 4", "Battalion Chief 1", "Battalion Chief 2", "Battalion Chief 3", "Battalion Chief 4", "Battalion Chief 5", "Hazmat 1", "Rescue 1"];
 
         document.getElementById('generate').addEventListener('click', generateIncident);
         document.getElementById('submit').addEventListener('click', gradeQuiz);
@@ -69,37 +103,32 @@
             const incidentNames = Object.keys(incidents);
             const randomIncident = incidentNames[Math.floor(Math.random() * incidentNames.length)];
             document.getElementById('incident').innerText = randomIncident;
-            generateUnitChecklist();
-        }
-
-        function generateUnitChecklist() {
-            const unitForm = document.getElementById('unitForm');
-            unitForm.innerHTML = "";
-            units.forEach(unit => {
-                const label = document.createElement('label');
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.value = unit;
-                label.appendChild(checkbox);
-                label.appendChild(document.createTextNode(unit));
-                unitForm.appendChild(label);
-                unitForm.appendChild(document.createElement('br'));
-            });
         }
 
         function gradeQuiz() {
-            const selectedUnits = Array.from(document.querySelectorAll('#unitForm input:checked')).map(input => input.value);
             const incident = document.getElementById('incident').innerText;
             const correctUnits = incidents[incident];
 
-            let correctCount = 0;
-            selectedUnits.forEach(unit => {
-                if (correctUnits.includes(unit)) {
-                    correctCount++;
-                }
-            });
+            const userUnits = {
+                engine: parseInt(document.getElementById('engine').value, 10),
+                ladder: parseInt(document.getElementById('ladder').value, 10),
+                medic: parseInt(document.getElementById('medic').value, 10),
+                battalionChief: parseInt(document.getElementById('battalionChief').value, 10),
+                hazmat: parseInt(document.getElementById('hazmat').value, 10),
+                rescue: parseInt(document.getElementById('rescue').value, 10)
+            };
 
-            const score = (correctCount / correctUnits.length) * 100;
+            let correctCount = 0;
+            let totalUnits = 0;
+
+            for (const unit in correctUnits) {
+                totalUnits += correctUnits[unit];
+                if (userUnits[unit] === correctUnits[unit]) {
+                    correctCount += correctUnits[unit];
+                }
+            }
+
+            const score = (correctCount / totalUnits) * 100;
             document.getElementById('result').innerText = `Your score: ${score.toFixed(2)}%`;
         }
     </script>
