@@ -58,7 +58,7 @@
         <button id="generate">Generate Incident</button>
         <div id="incident"></div>
         <form id="unitForm">
-            <h2>Enter the number of units that go to the call:</h2>
+            <h2>Enter units:</h2>
             <div class="unit-input">
                 <label for="engine">Engine:</label>
                 <input type="number" id="engine" name="engine" min="0" value="0">
@@ -90,10 +90,6 @@
     <script>
         const incidents = {
             "Reported Structure Fire": { engine: 1, ladder: 1, medic: 1, battalionChief: 1, hazmat: 0, rescue: 0 },
-            "Medical Emergency": { engine: 0, ladder: 0, medic: 2, battalionChief: 1, hazmat: 0, rescue: 0 },
-            "Hazardous Materials Incident": { engine: 1, ladder: 0, medic: 0, battalionChief: 1, hazmat: 1, rescue: 0 },
-            "Vehicle Accident": { engine: 1, ladder: 0, medic: 1, battalionChief: 1, hazmat: 0, rescue: 0 },
-            "Technical Rescue": { engine: 1, ladder: 0, medic: 1, battalionChief: 1, hazmat: 0, rescue: 1 }
         };
 
         document.getElementById('generate').addEventListener('click', generateIncident);
