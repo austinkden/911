@@ -12,7 +12,7 @@ body {
   margin-top: 50px; /* Space from the top */
   text-align: center;
   border: solid 1px #CAC9D1;
-  padding: 15px;
+  padding: 15px 15px 0px 15px;
   border-radius: 10px;
 }
 
@@ -63,14 +63,14 @@ body, select {
   bottom: 20px;
   right: 20px;
   background-color: #3CCB69;
-  color: white;
+  color: #1A1D22;
   padding: 10px 20px;
   border-radius: 5px;
   display: flex;
   align-items: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   opacity: 0;
-  transition: opacity 0.5s;
+  transition: opacity 0.2s;
 }
 
 .notification .checkmark {
