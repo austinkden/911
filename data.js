@@ -10,5 +10,5 @@ const incidentData = [
 // above is example of format
 
 const incidentData = [
-    { "Incident": "Reported Structure Fire"}
+    { "Incident": "Reported Structure Fire", "Response": ""}
 ]
