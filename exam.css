@@ -21,17 +21,6 @@ select {
   appearance: none;
 }
 
-select::after {
-  content: '▼'; /* Unicode character for down arrow */
-  position: absolute;
-  right: 10px; /* Adjust horizontal position */
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none; /* So it doesn't interfere with dropdown */
-  font-size: 16px; /* Adjust size as needed */
-  color: #CAC9D1; /* Adjust color as needed */
-}
-
 button {
   background-color: #8859FF;
   color: #F2EDFF;
