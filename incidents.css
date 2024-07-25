@@ -33,6 +33,10 @@ body {
   border-radius: 10px;
   background-color: #353D49;
   line-height: 1.5; /* Ensure line-height is consistent */
+  display: flex;
+  flex-direction: column; /* Align items vertically */
+  align-items: center; /* Center content horizontally */
+  min-height: 150px; /* Ensure minimum height to prevent content from stretching */
 }
 
 /* Input Group Styles */
@@ -89,6 +93,6 @@ button.action-button:hover {
 
 /* Paragraph Styles */
 p {
-  margin: 15px;
+  margin: 15px 0; /* Only top and bottom margin */
   line-height: 1.5; /* Ensure line-height is consistent */
 }
