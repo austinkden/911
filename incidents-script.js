@@ -36,3 +36,8 @@ unitInput.addEventListener("keydown", function(event) {
     updateUnitsDisplay();
   }
 });
+
+document.getElementById('dingButton').addEventListener('click', function() {
+    var dingSound = document.getElementById('dingSound');
+    dingSound.play();
+});
