@@ -52,9 +52,9 @@ p, input {
 
 input {
   width: 100%;
-  height: 27px;
+  height: 30px;
   background-color: #5B6470;
-  padding: 0px 0px 0px 5px; /* adjust if needed */
+  padding: 4px 7px 4px 7px;
   font-size: 13px;
   border-radius: 5px;
   border: solid 2px #CAC9D1;
