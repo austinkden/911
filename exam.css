@@ -17,7 +17,7 @@ body {
 select {
   width: 250px;
   background-color: #353D49;
-  padding: 3px;
+  padding: 3px 10px 3px 3px;
   appearance: none;
 }
 
@@ -29,12 +29,7 @@ select::after {
   transform: translateY(-50%);
   pointer-events: none; /* So it doesn't interfere with dropdown */
   font-size: 16px; /* Adjust size as needed */
-  color: #333; /* Adjust color as needed */
-}
-
-/* Optional: add padding to the right of select element to make space for arrow */
-select {
-  padding-right: 30px; /* Ensure there's space for the custom arrow */
+  color: #CAC9D1; /* Adjust color as needed */
 }
 
 button {
