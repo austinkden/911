@@ -1,8 +1,4 @@
 body {
-  font-family: "DM Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
   align-items: center;
   margin: 0;
   min-height: 100vh;
@@ -14,10 +10,14 @@ body {
   text-align: center;
   margin-top: 50px;
   border: solid 3px black;
-  
 }
 
-select, button {
+select {
+  width: 250px;
+}
+
+/* font */
+body, select, button {
   font-family: "DM Sans", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
