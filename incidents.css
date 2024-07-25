@@ -32,6 +32,7 @@ body {
   padding: 15px;
   border-radius: 10px;
   background-color: #353D49;
+  line-height: 1.5; /* Ensure line-height is consistent */
 }
 
 /* Input Group Styles */
@@ -89,4 +90,5 @@ button.action-button:hover {
 /* Paragraph Styles */
 p {
   margin: 15px;
+  line-height: 1.5; /* Ensure line-height is consistent */
 }
