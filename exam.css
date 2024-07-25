@@ -21,7 +21,7 @@ select {
   appearance: none;
 }
 
-.selec::after {
+select::after {
   content: '▼'; /* Unicode character for down arrow */
   position: absolute;
   right: 10px; /* Adjust horizontal position */
