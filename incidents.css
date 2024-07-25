@@ -12,19 +12,19 @@ body {
   margin-top: 50px; /* Space from the top */
   text-align: center;
   border: solid 2px #CAC9D1;
-  padding: 15px 15px 15px 15px;
+  padding: 15px;
   border-radius: 10px;
   background-color: #353D49;
 }
 
-button {
-  height: 30px; /* Set the same fixed height */
-  width: 30px; /* Make buttons square */
+button.action-button {
+  width: 30px; /* Fixed width for consistency */
+  height: 30px; /* Fixed height for consistency */
   background-color: #8859FF;
   color: #F2EDFF;
   padding: 0; /* Remove padding */
   margin-left: 3px;
-  font-size: 18px; /* Adjust size to fit the icon */
+  font-size: 16px; /* Adjust font size for icon */
   border-radius: 5px;
   border: solid 2px #CAC9D1;
   display: flex;
@@ -33,28 +33,9 @@ button {
   text-align: center;
 }
 
-button:hover {
+button.action-button:hover {
   background-color: #432987;
   cursor: pointer;
-}
-
-p {
-  margin: 0px;
-}
-
-/* font */
-body, select, input, button {
-  font-family: "DM Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  color: #CAC9D1;
-}
-
-#import {
-  font-size: 13px;
-  border-radius: 5px;
-  border: solid 2px #CAC9D1;
 }
 
 select, input {
@@ -66,6 +47,7 @@ select, input {
   border-radius: 5px;
   border: solid 2px #CAC9D1;
   box-sizing: border-box; /* Ensure padding and border are included in the total width/height */
+  margin-bottom: 10px; /* Add space below for alignment */
 }
 
 select {
@@ -81,4 +63,17 @@ select {
 
 input {
   padding: 0 5px; /* Ensure the padding is consistent with the select */
+}
+
+p {
+  margin: 0;
+}
+
+/* font */
+body, select {
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: #CAC9D1;
 }
