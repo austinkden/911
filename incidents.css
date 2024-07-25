@@ -1,3 +1,4 @@
+/* General Body Styles */
 body {
   margin: 0;
   min-height: 100vh;
@@ -6,8 +7,14 @@ body {
   display: flex;
   flex-direction: column; /* Align items vertically */
   align-items: center; /* Center content horizontally */
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: #CAC9D1;
 }
 
+/* Units Container Styles */
 .units {
   margin-top: 50px; /* Space from the top */
   text-align: center;
@@ -17,12 +24,38 @@ body {
   background-color: #353D49;
 }
 
+/* Input Group Styles */
 .input-group {
   display: flex; /* Use Flexbox for horizontal alignment */
   align-items: center; /* Center items vertically */
   margin-bottom: 10px; /* Space between groups */
 }
 
+/* Select and Input Styles */
+select, input {
+  width: 350px; /* Set the width */
+  height: 30px; /* Set the height */
+  background-color: #5B6470;
+  padding: 0 5px; /* Adjust padding for both */
+  font-size: 13px; /* Set font size */
+  border-radius: 5px;
+  border: solid 2px #CAC9D1;
+  box-sizing: border-box; /* Ensure padding and border are included in the total width/height */
+  margin: 0; /* Ensure no additional margin */
+}
+
+select {
+  padding: 0 7px; /* Adjust padding for dropdown */
+  -webkit-appearance: none; /* Remove default dropdown styling */
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 viewBox%3D%220 0 10 6%22%3E%3Cpath fill%3D%22none%22 stroke%3D%22%23CAC9D1%22 stroke-width%3D%221%22 d%3D%22M1 1l4 4 4-4%22/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px 6px;
+}
+
+/* Button Styles */
 button.action-button {
   width: 30px; /* Fixed width for consistency */
   height: 30px; /* Fixed height for consistency */
@@ -44,41 +77,7 @@ button.action-button:hover {
   cursor: pointer;
 }
 
-select, input {
-  width: 350px; /* Set the width */
-  height: 30px; /* Set the height */
-  background-color: #5B6470;
-  padding: 0 5px; /* Adjust padding for both */
-  font-size: 13px; /* Set font size */
-  border-radius: 5px;
-  border: solid 2px #CAC9D1;
-  box-sizing: border-box; /* Ensure padding and border are included in the total width/height */
-}
-
-select {
-  padding: 0 7px; /* Adjust padding for dropdown */
-  -webkit-appearance: none; /* Remove default dropdown styling */
-  -moz-appearance: none;
-  appearance: none;
-  background-image: url('data:image/svg+xml,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 viewBox%3D%220 0 10 6%22%3E%3Cpath fill%3D%22none%22 stroke%3D%22%23CAC9D1%22 stroke-width%3D%221%22 d%3D%22M1 1l4 4 4-4%22/%3E%3C/svg%3E');
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 10px 6px;
-}
-
-input {
-  padding: 0 5px; /* Ensure the padding is consistent with the select */
-}
-
+/* Paragraph Styles */
 p {
   margin: 15px;
-}
-
-/* font */
-body, select {
-  font-family: "DM Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  color: #CAC9D1;
 }
