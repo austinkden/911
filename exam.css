@@ -17,11 +17,7 @@ body {
   justify-content: center;
   text-align: center;
   margin: auto; /* Adjust as needed */
-  height: 80vh
-}
-
-.units > * {
-  margin: 10px 0; /* Adjust as needed */
+  width: 1000px
 }
 
 select, button {

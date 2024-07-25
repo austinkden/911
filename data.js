@@ -8,3 +8,7 @@ const incidentData = [
 ];
 
 // above is example of format
+
+const incidentData = [
+    { "Incident": "Reported Structure Fire"}
+]
