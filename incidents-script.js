@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", function() {
     var button = document.getElementById("generate");
     var select = document.getElementById("options");
     var unitsDisplay = document.querySelector(".units p");
@@ -6,7 +7,7 @@
         var selectedOption = select.value;
 
         var incident = incidentData.find(function(incident) {
-            return incident.Incident.replace(/\s+/g, '').toLowerCase() === selectedOption;
+            return incident.value === selectedOption;
         });
 
         if (incident) {
@@ -15,3 +16,4 @@
             unitsDisplay.textContent = "Please select a valid incident.";
         }
     });
+});
