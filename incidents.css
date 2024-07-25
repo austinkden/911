@@ -14,6 +14,16 @@ body {
   color: #CAC9D1;
 }
 
+/* Universal Text Styles */
+* {
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: #CAC9D1;
+  box-sizing: border-box; /* Ensure padding and border are included in the total width/height */
+}
+
 /* Units Container Styles */
 .units {
   margin-top: 50px; /* Space from the top */
@@ -40,7 +50,6 @@ select, input {
   font-size: 13px; /* Set font size */
   border-radius: 5px;
   border: solid 2px #CAC9D1;
-  box-sizing: border-box; /* Ensure padding and border are included in the total width/height */
   margin: 0; /* Ensure no additional margin */
 }
 
