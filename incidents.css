@@ -17,24 +17,6 @@ body {
   background-color: #353D49;
 }
 
-select {
-  width: 350px;
-  height: 30px; /* Set a fixed height */
-  background-color: #5B6470;
-  padding: 4px 30px 4px 7px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url('data:image/svg+xml,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 viewBox%3D%220 0 10 6%22%3E%3Cpath fill%3D%22none%22 stroke%3D%22%23CAC9D1%22 stroke-width%3D%221%22 d%3D%22M1 1l4 4 4-4%22/%3E%3C/svg%3E');
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 10px 6px;
-  font-size: 13px;
-  border-radius: 5px;
-  border: solid 2px #CAC9D1;
-  margin-bottom: 15px;
-}
-
 button {
   height: 30px; /* Set the same fixed height */
   background-color: #8859FF;
@@ -44,17 +26,6 @@ button {
   font-size: 13px;
   border-radius: 5px;
   border: solid 2px #CAC9D1;
-}
-
-input {
-  width: 350px; /* Match the width of the dropdown */
-  height: 30px; /* Match the height of the dropdown */
-  background-color: #5B6470;
-  padding: 0 5px; /* Add 5px padding on left and right */
-  font-size: 13px; /* Set font size */
-  border-radius: 5px;
-  border: solid 2px #CAC9D1;
-  margin-top: 10px; /* Add some spacing above the input if needed */
 }
 
 p {
@@ -79,4 +50,30 @@ body, select {
   font-size: 13px;
   border-radius: 5px;
   border: solid 2px #CAC9D1;
+}
+
+select, input {
+  width: 350px; /* Set the width */
+  height: 30px; /* Set the height */
+  background-color: #5B6470;
+  padding: 0 5px; /* Adjust padding for both */
+  font-size: 13px; /* Set font size */
+  border-radius: 5px;
+  border: solid 2px #CAC9D1;
+  box-sizing: border-box; /* Ensure padding and border are included in the total width/height */
+}
+
+select {
+  padding: 0 7px; /* Adjust padding for dropdown */
+  -webkit-appearance: none; /* Remove default dropdown styling */
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 viewBox%3D%220 0 10 6%22%3E%3Cpath fill%3D%22none%22 stroke%3D%22%23CAC9D1%22 stroke-width%3D%221%22 d%3D%22M1 1l4 4 4-4%22/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px 6px;
+}
+
+input {
+  padding: 0 5px; /* Ensure the padding is consistent with the select */
 }
