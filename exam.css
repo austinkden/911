@@ -13,7 +13,7 @@ body {
   justify-content: center;
   text-align: center;
   margin: auto; /* Adjust as needed */
-  width: 1000px
+  margin-top: 50px
 }
 
 select, button {
