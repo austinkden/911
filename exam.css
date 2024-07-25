@@ -16,17 +16,11 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 50px; /* Adjust as needed */
+  margin: auto; /* Adjust as needed */
+  /* Add a fixed height or max-height if needed */
 }
 
-select {
-  font-family: "DM Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}
-
-button {
+select, button {
   font-family: "DM Sans", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
