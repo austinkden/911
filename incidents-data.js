@@ -6,5 +6,7 @@ const incidentData = [
     { "Incident": "Air Alert 3", "Response": "RED1 RED2 RED3 2E 2M 1BC 1SAF 1MED PIO KAPAOPS" },
     { "Incident": "Air Alert 3 Off-Airport", "Response": "1RED 1ARL 2E 2M 2BC 1SAF 1MED PIO OPS" },
     { "Incident": "Alarm Reset", "Response": "1SPN" },
-    { "Incident": "Carbon Monoxide Alarm, No Sick Parties", "Response": "1SPN" }
+    { "Incident": "Carbon Monoxide Alarm, No Sick Parties", "Response": "1SPN" },
+    { "Incident": "Residential Fire Alarm", "Response": "1SPN" },
+    { "Incident": "Commercial Fire Alarm", "Response": "1SPN" }
 ];
