@@ -62,11 +62,15 @@ select {
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 10px 6px;
-  margin-top: 5px;
+  margin-top: 8px;
 }
 
 input {
   margin-bottom: 0px;
+}
+
+button1 {
+  margin-top: 8px;
 }
 
 /* Button Styles */
