@@ -57,3 +57,26 @@ body, select {
   font-style: normal;
   color: #CAC9D1;
 }
+
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #3CCB69;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.notification .checkmark {
+  margin-right: 10px;
+}
+
+.notification.show {
+  opacity: 1;
+}
