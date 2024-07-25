@@ -3,6 +3,7 @@ body {
   margin: 0;
   min-height: 100vh;
   background-color: #1A1D22;
+  font-size: 13px;
 }
 
 .units {
@@ -16,21 +17,30 @@ body {
 
 select {
   width: 250px;
+  height: 30px; /* Set a fixed height */
   background-color: #353D49;
-  padding: 3px 10px 3px 3px;
+  padding: 4px 30px 4px 7px;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-image: url('data:image/svg+xml,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 viewBox%3D%220 0 10 6%22%3E%3Cpath fill%3D%22%23CAC9D1%22 d%3D%22M1 1l4 4 4-4%22 stroke%3D%22%23CAC9D1%22 stroke-width%3D%221%22 fill%3D%22none%22/%3E%3C/svg%3E');
+  background-image: url('data:image/svg+xml,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 viewBox%3D%220 0 10 6%22%3E%3Cpath fill%3D%22none%22 stroke%3D%22%23CAC9D1%22 stroke-width%3D%221%22 d%3D%22M1 1l4 4 4-4%22/%3E%3C/svg%3E');
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 10px 6px;
+  font-size: 13px;
+  border-radius: 5px;
+  border: solid 2px #CAC9D1;
 }
 
 button {
+  height: 30px; /* Set the same fixed height */
   background-color: #8859FF;
   color: #F2EDFF;
-  padding: 3px;
+  padding: 0 10px; /* Adjust padding to maintain the desired look */
+  margin-left: 3px;
+  font-size: 13px;
+  border-radius: 5px;
+  border: solid 2px #CAC9D1;
 }
 
 button:hover {
@@ -45,9 +55,4 @@ body, select {
   font-weight: 400;
   font-style: normal;
   color: #CAC9D1;
-}
-
-select, button {
-  border-radius: 5px;
-  border: solid 2px #CAC9D1;
 }
