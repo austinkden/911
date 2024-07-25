@@ -74,3 +74,9 @@ body, select {
   font-style: normal;
   color: #CAC9D1;
 }
+
+#import {
+  font-size: 13px;
+  border-radius: 5px;
+  border: solid 2px #CAC9D1;
+}
