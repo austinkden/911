@@ -10,6 +10,7 @@ body {
 
 .units {
   margin-top: 50px; /* Space from the top */
+  width: 50%;
   text-align: center;
   border: solid 1px #CAC9D1;
   padding: 10px;
