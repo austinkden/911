@@ -18,6 +18,14 @@ select {
   background-color: #353D49;
 }
 
+button {
+  background-color: #8859FF;
+}
+
+button:hover {
+  background-color: #432987;
+}
+
 /* font */
 body, select, button {
   font-family: "DM Sans", sans-serif;
