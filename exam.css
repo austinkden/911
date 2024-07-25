@@ -20,6 +20,10 @@ body {
   height: 80vh
 }
 
+.units > * {
+  margin: 10px 0; /* Adjust as needed */
+}
+
 select, button {
   font-family: "DM Sans", sans-serif;
   font-optical-sizing: auto;
