@@ -73,6 +73,11 @@ input {
   margin-top: 8px;
 }
 
+.units p {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
 /* Button Styles */
 button.action-button {
   width: 30px; /* Fixed width for consistency */
