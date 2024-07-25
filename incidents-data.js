@@ -6,5 +6,9 @@ const incidentData = [
     { "value": "airalert3", "Incident": "Air Alert 3", "Response": "RED1 RED2 RED3 2E 2M 1BC 1SAF 1MED PIO KAPAOPS" },
     { "value": "airalert3offairport", "Incident": "Air Alert 3 Off-Airport", "Response": "1RED 1ARL 2E 2M 2BC 1SAF 1MED PIO OPS" },
     { "value": "alarmreset", "Incident": "Alarm Reset", "Response": "1SPN" },
+    { "value": "animalrescue", "Incident": "Animal Rescue", "Response": "1SPN" },
+    { "value": "appliancefire", "Incident": "Appliance Fire", "Response": "1SPN" },
+    { "value": "bbqgrillfire", "Incident": "BBQ Grill Fire", "Response": "1SPN" },
+    { "value": "boatfire", "Incident": "Boat Fire", "Response": "1SPN" },
     
 ];
