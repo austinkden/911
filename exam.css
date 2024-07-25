@@ -17,12 +17,13 @@ body {
 select {
   width: 250px;
   background-color: #353D49;
-  padding-left: 1px;
+  padding: 3px;
 }
 
 button {
   background-color: #8859FF;
   color: #F2EDFF;
+  padding: 3px;
 }
 
 button:hover {
@@ -30,7 +31,7 @@ button:hover {
 }
 
 /* font */
-body, select, button {
+body, select {
   font-family: "DM Sans", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
@@ -39,7 +40,6 @@ body, select, button {
 }
 
 select, button {
-  padding: 2px;
   border-radius: 5px;
   border: solid 2px #CAC9D1;
 }
