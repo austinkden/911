@@ -19,17 +19,18 @@ body {
 
 button {
   height: 30px; /* Set the same fixed height */
+  width: 30px; /* Make buttons square */
   background-color: #8859FF;
   color: #F2EDFF;
-  padding: 0 10px; /* Adjust padding to maintain the desired look */
+  padding: 0; /* Remove padding */
   margin-left: 3px;
-  font-size: 13px;
+  font-size: 18px; /* Adjust size to fit the icon */
   border-radius: 5px;
   border: solid 2px #CAC9D1;
-}
-
-p {
-  margin: 0px;
+  display: flex;
+  align-items: center; /* Center icon vertically */
+  justify-content: center; /* Center icon horizontally */
+  text-align: center;
 }
 
 button:hover {
@@ -37,8 +38,12 @@ button:hover {
   cursor: pointer;
 }
 
+p {
+  margin: 0px;
+}
+
 /* font */
-body, select {
+body, select, input, button {
   font-family: "DM Sans", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
