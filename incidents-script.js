@@ -37,7 +37,11 @@ unitInput.addEventListener("keydown", function(event) {
   }
 });
 
+
+
+// ding
 document.getElementById('dingButton').addEventListener('click', function() {
     var dingSound = document.getElementById('dingSound');
     dingSound.play();
 });
+
