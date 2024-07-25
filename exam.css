@@ -12,8 +12,9 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin: auto; /* Adjust as needed */
-  margin-top: 50px
+  margin-top: 50px;
+  border: solid 3px black;
+  
 }
 
 select, button {
