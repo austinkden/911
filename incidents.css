@@ -74,6 +74,7 @@ input {
 }
 
 .units p {
+  max-width: 375px;
   word-wrap: break-word;
   white-space: pre-wrap;
 }
