@@ -13,17 +13,19 @@
 </head>
 <body>
   <div class="units">
-    <select id="options" name="options">
-      <option value="2ndalarmbrushfire">2nd Alarm Brush Fire</option>
-    </select>
-    <button class="action-button" id="generate"><i class="fas fa-arrow-right"></i></button>
-    <br>
+    <div class="input-group">
+      <select id="options" name="options">
+        <option value="2ndalarmbrushfire">2nd Alarm Brush Fire</option>
+      </select>
+      <button class="action-button" id="generate"><i class="fas fa-arrow-right"></i></button>
+    </div>
     <p>Units Show Here</p>
-    <br>
-    <input type="text" id="units-input">
-    <button class="action-button" id="import"><i class="fas fa-arrow-right"></i></button>
+    <div class="input-group">
+      <input type="text" id="units-input">
+      <button class="action-button" id="import"><i class="fas fa-arrow-right"></i></button>
+    </div>
   </div>  
-    <script src="incidents-data.js"></script>
-    <script src="incidents-script.js"></script>
+  <script src="incidents-data.js"></script>
+  <script src="incidents-script.js"></script>
 </body>
 </html>
