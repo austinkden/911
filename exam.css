@@ -17,7 +17,7 @@ body {
   justify-content: center;
   text-align: center;
   margin: auto; /* Adjust as needed */
-  /* Add a fixed height or max-height if needed */
+  height: 80vh
 }
 
 select, button {
