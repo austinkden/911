@@ -46,18 +46,19 @@ button {
   border: solid 2px #CAC9D1;
 }
 
-p, input {
-  margin: 0px;
-}
-
 input {
-  width: 100%;
-  height: 30px;
+  width: 350px; /* Match the width of the dropdown */
+  height: 30px; /* Match the height of the dropdown */
   background-color: #5B6470;
-  padding: 4px 7px 4px 7px;
-  font-size: 13px;
+  padding: 0 5px; /* Add 5px padding on left and right */
+  font-size: 13px; /* Set font size */
   border-radius: 5px;
   border: solid 2px #CAC9D1;
+  margin-top: 10px; /* Add some spacing above the input if needed */
+}
+
+p {
+  margin: 0px;
 }
 
 button:hover {
@@ -66,7 +67,7 @@ button:hover {
 }
 
 /* font */
-body, select, input {
+body, select {
   font-family: "DM Sans", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
