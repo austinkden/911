@@ -17,6 +17,14 @@ generateButton.addEventListener("click", function() {
   }
 });
 
-importButton.addEventListener("click", function() {
+function updateUnitsDisplay() {
   unitsDisplay.textContent = unitInput.value;
+}
+
+importButton.addEventListener("click", updateUnitsDisplay);
+
+unitInput.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    updateUnitsDisplay();
+  }
 });
