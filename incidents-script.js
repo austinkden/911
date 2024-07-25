@@ -18,7 +18,15 @@ generateButton.addEventListener("click", function() {
 });
 
 function updateUnitsDisplay() {
-  unitsDisplay.textContent = unitInput.value;
+  var units = unitInput.value.split(" ");
+  var updatedUnits = units.map(function(unit) {
+    if (unit.startsWith("SMFOPS")) {
+      return unit.replace("SMF", "");
+    } else {
+      return unit.replace("SM", "");
+    }
+  });
+  unitsDisplay.textContent = updatedUnits.join(" ");
 }
 
 importButton.addEventListener("click", updateUnitsDisplay);
