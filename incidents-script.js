@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var notification = document.querySelector(".notification");
-    notification.classList.add("show");
+    var notification-page-loaded = document.querySelector(".notification-page-loaded");
+    notification-page-loaded.classList.add("show");
 
     setTimeout(function() {
-        notification.classList.remove("show");
-    }, 2000); // The notification will disappear after 2 seconds
+        notification-page-loaded.classList.remove("show");
+    }, 2000);
 
     var button = document.getElementById("generate");
     var select = document.getElementById("options");

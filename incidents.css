@@ -58,7 +58,7 @@ body, select {
   color: #CAC9D1;
 }
 
-.notification {
+.notification-page-loaded {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -73,10 +73,10 @@ body, select {
   transition: opacity 0.2s;
 }
 
-.notification .checkmark {
+.notification-page-loaded .checkmark {
   margin-right: 10px;
 }
 
-.notification.show {
+.notification-page-loaded.show {
   opacity: 1;
 }
