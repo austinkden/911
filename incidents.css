@@ -19,13 +19,22 @@ body {
 
 button {
   height: 30px; /* Set the same fixed height */
+  width: 30px; /* Set the same width */
   background-color: #8859FF;
   color: #F2EDFF;
-  padding: 0 10px; /* Adjust padding to maintain the desired look */
+  border: none; /* Remove default border */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0; /* Remove default padding */
   margin-left: 3px;
-  font-size: 13px;
   border-radius: 5px;
-  border: solid 2px #CAC9D1;
+  font-size: 13px;
+}
+
+button svg {
+  width: 16px; /* Set the icon size */
+  height: 16px;
 }
 
 p {
@@ -75,5 +84,12 @@ select {
 }
 
 input {
-  padding: 0 5px; /* Ensure the padding is consistent with the select */
+  width: 350px; /* Match the width of the dropdown */
+  height: 30px; /* Match the height of the dropdown */
+  background-color: #5B6470;
+  padding: 0 5px; /* Add 5px padding on left and right */
+  font-size: 13px; /* Set font size */
+  border-radius: 5px;
+  border: solid 2px #CAC9D1;
+  margin-top: 10px; /* Add some spacing above the input if needed */
 }
