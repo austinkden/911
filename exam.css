@@ -17,6 +17,7 @@ body {
 select {
   width: 250px;
   background-color: #353D49;
+  padding-left: 2px;
 }
 
 button {
