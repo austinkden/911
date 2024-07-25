@@ -49,7 +49,7 @@ body {
 
 /* Select and Input Styles */
 select, input {
-  width: 350px; /* Set the width */
+  width: 450px; /* Set the width */
   height: 30px; /* Set the height */
   background-color: #5B6470;
   padding: 0 5px; /* Adjust padding for both */
