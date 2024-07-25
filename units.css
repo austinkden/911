@@ -1,19 +1,18 @@
 body {
-  display: flex; /* Add this */
-  flex-direction: column; /* Add this to align items vertically */
-  align-items: center;
-  justify-content: center;
   margin: 0;
   min-height: 100vh;
   background-color: #1A1D22;
   font-size: 13px;
+  display: flex; /* Add this */
+  flex-direction: column; /* Add this */
+  padding-top: 50px; /* Add this to create space from the top */
+  align-items: center; /* Center the content horizontally */
 }
 
 .units {
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 50px;
   border: solid 1px #CAC9D1;
   padding: 10px;
 }
