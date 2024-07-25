@@ -17,7 +17,7 @@ body {
 select {
   width: 250px;
   background-color: #353D49;
-  padding-left: 2px;
+  padding-left: 1px;
 }
 
 button {
@@ -39,6 +39,7 @@ body, select, button {
 }
 
 select, button {
+  padding: 2px;
   border-radius: 5px;
   border: solid 2px #CAC9D1;
 }
