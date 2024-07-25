@@ -91,12 +91,3 @@ const incidentData = [
     { "value": "workingmultifamilyfire", "Incident": "Working Multi-Family Fire" },
     { "value": "workingresidentialfire", "Incident": "Working Residential Fire" }
   ];
-
-  const selectElement = document.getElementById("options");
-
-  incidentData.forEach(item => {
-    const optionElement = document.createElement("option");
-    optionElement.value = item.value;
-    optionElement.textContent = item.Incident;
-    selectElement.appendChild(optionElement);
-  });
