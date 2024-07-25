@@ -11,11 +11,11 @@ body {
   text-align: center;
   margin-top: 50px;
   border: solid 3px #CAC9D1;
-  width: 325px;
 }
 
 select {
   width: 250px;
+  background-color: #353D49;
 }
 
 /* font */
