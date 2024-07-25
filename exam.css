@@ -22,6 +22,7 @@ select {
 
 button {
   background-color: #8859FF;
+  color: #F2EDFF;
 }
 
 button:hover {
