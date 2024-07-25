@@ -14,6 +14,11 @@ body {
   color: #CAC9D1;
 }
 
+.scrollable-dropdown {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
 /* Universal Text Styles */
 * {
   font-family: "DM Sans", sans-serif;
