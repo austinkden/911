@@ -17,7 +17,7 @@ body {
 }
 
 select {
-  width: 250px;
+  width: 350px;
   height: 30px; /* Set a fixed height */
   background-color: #353D49;
   padding: 4px 30px 4px 7px;
