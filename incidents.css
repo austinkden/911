@@ -14,6 +14,7 @@ body {
   border: solid 1px #CAC9D1;
   padding: 15px 15px 0px 15px;
   border-radius: 10px;
+  background-color: #1A1D22;
 }
 
 select {
