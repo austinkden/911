@@ -14,11 +14,6 @@ body {
   color: #CAC9D1;
 }
 
-#options {
-  max-height: 300px;
-  overflow-y: auto;
-}
-
 * {
   font-family: "DM Sans", sans-serif;
   font-optical-sizing: auto;
